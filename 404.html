@@ -331,7 +331,8 @@
     </main>
 
     <script>
-      /* Chuva lenta de gotas de chocolate que se acumulam formando 404 */
+      /* Chocolate escorrendo: streams verticais de chocolate fluem do
+         topo, deixando rastro, e se assentam formando '404' */
       (function () {
         const canvas = document.getElementById('chocoCanvas');
         if (!canvas || !canvas.getContext) return;
@@ -340,16 +341,17 @@
 
         let W = 0, H = 0;
         let targets = [];
-        let drops = [];
+        let streams = [];
         let settled = [];
         let targetIndex = 0;
         let lastSpawn = 0;
         let restartTimer = null;
 
-        function chocolateColor() {
-          return document.documentElement.getAttribute('data-theme') === 'dark'
-            ? '#7a3e2a'
-            : '#4a2418';
+        function colors() {
+          const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+          return dark
+            ? { dark: '#8a4631', light: '#b86b50' }
+            : { dark: '#3d1c12', light: '#6b3525' };
         }
 
         function resize() {
@@ -361,7 +363,7 @@
           canvas.style.height = H + 'px';
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           computeTargets();
-          drops = [];
+          streams = [];
           settled = [];
           targetIndex = 0;
         }
@@ -369,7 +371,7 @@
         function computeTargets() {
           targets = [];
           const fontSize = Math.min(W * 0.32, H * 0.45, 320);
-          const centerY = Math.min(H * 0.28, 220);
+          const centerY = Math.min(H * 0.3, 230);
 
           const off = document.createElement('canvas');
           off.width = W;
@@ -382,7 +384,7 @@
           octx.fillText('404', W / 2, centerY);
 
           const data = octx.getImageData(0, 0, W, H).data;
-          const step = Math.max(7, Math.floor(fontSize / 26));
+          const step = Math.max(6, Math.floor(fontSize / 28));
           for (let y = 0; y < H; y += step) {
             for (let x = 0; x < W; x += step) {
               if (data[(y * W + x) * 4 + 3] > 128) {
@@ -390,84 +392,129 @@
               }
             }
           }
-          /* shuffle para preenchimento orgânico */
-          for (let i = targets.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            const tmp = targets[i];
-            targets[i] = targets[j];
-            targets[j] = tmp;
+          /* Ordenar por x para que streams adjacentes caiam quase juntas
+             — visualmente parece chocolate escorrendo de cima */
+          targets.sort(function (a, b) {
+            return a.x - b.x || a.y - b.y;
+          });
+          /* Pequeno embaralhamento local pra não ficar mecânico */
+          for (let i = 0; i < targets.length - 1; i++) {
+            if (Math.random() < 0.25) {
+              const tmp = targets[i];
+              targets[i] = targets[i + 1];
+              targets[i + 1] = tmp;
+            }
           }
         }
 
-        function spawnDrop() {
+        function spawnStream() {
           if (targetIndex >= targets.length) return;
-          const t = targets[targetIndex++];
-          drops.push({
-            x: t.x + (Math.random() - 0.5) * 80,
-            y: -20 - Math.random() * 120,
-            tx: t.x,
-            ty: t.y,
-            vy: 0.35 + Math.random() * 0.35,
-            r: 3.5 + Math.random() * 1.8,
-          });
+          /* Spawn 2-3 streams por frame pra acelerar */
+          const burst = 2 + Math.floor(Math.random() * 2);
+          for (let i = 0; i < burst && targetIndex < targets.length; i++) {
+            const t = targets[targetIndex++];
+            streams.push({
+              x: t.x + (Math.random() - 0.5) * 14,
+              y: -10,
+              spawnY: -10,
+              tx: t.x,
+              ty: t.y,
+              vy: 1.4 + Math.random() * 1.0,
+              w: 2.2 + Math.random() * 1.6,
+              r: 3.8 + Math.random() * 1.6,
+              fade: 1, /* opacidade do trail; cai pra 0 após assentar */
+              settled: false,
+            });
+          }
         }
 
-        function drawSettled(s) {
+        function drawSettled(s, c) {
+          ctx.fillStyle = c.dark;
           ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r * 1.15, 0, Math.PI * 2);
+          ctx.arc(s.x, s.y, s.r * 1.2, 0, Math.PI * 2);
+          ctx.fill();
+          /* highlight especular leve pra parecer chocolate brilhante */
+          ctx.fillStyle = c.light;
+          ctx.beginPath();
+          ctx.arc(s.x - s.r * 0.35, s.y - s.r * 0.45, s.r * 0.45, 0, Math.PI * 2);
           ctx.fill();
         }
 
-        function drawTeardrop(d) {
-          ctx.beginPath();
-          ctx.moveTo(d.x, d.y - d.r * 1.6);
-          ctx.bezierCurveTo(
-            d.x + d.r * 1.05, d.y - d.r * 0.5,
-            d.x + d.r * 1.05, d.y + d.r,
-            d.x, d.y + d.r * 1.4
-          );
-          ctx.bezierCurveTo(
-            d.x - d.r * 1.05, d.y + d.r,
-            d.x - d.r * 1.05, d.y - d.r * 0.5,
-            d.x, d.y - d.r * 1.6
-          );
-          ctx.fill();
+        function drawStream(s, c) {
+          /* Trail: linha vertical do spawnY até y atual, com gradient
+             que fica mais opaco perto da gota e some no topo */
+          if (s.fade > 0.02) {
+            const trailTop = Math.max(s.spawnY, s.y - 220);
+            const grad = ctx.createLinearGradient(s.x, trailTop, s.x, s.y);
+            const a = s.fade;
+            grad.addColorStop(0, hexA(c.dark, 0));
+            grad.addColorStop(0.6, hexA(c.dark, a * 0.35));
+            grad.addColorStop(1, hexA(c.dark, a * 0.85));
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = s.w;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(s.x, trailTop);
+            ctx.lineTo(s.x, s.y);
+            ctx.stroke();
+          }
+          if (!s.settled) {
+            /* Cabeça em queda: gota arredondada */
+            ctx.fillStyle = c.dark;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        function hexA(hex, alpha) {
+          const v = parseInt(hex.slice(1), 16);
+          return 'rgba(' + (v >> 16 & 255) + ',' + (v >> 8 & 255) + ',' + (v & 255) + ',' + alpha + ')';
         }
 
         function tick(now) {
           ctx.clearRect(0, 0, W, H);
-          ctx.fillStyle = chocolateColor();
+          const c = colors();
 
-          if (now - lastSpawn > 38) {
-            spawnDrop();
+          if (now - lastSpawn > 22) {
+            spawnStream();
             lastSpawn = now;
           }
 
-          for (let i = 0; i < settled.length; i++) drawSettled(settled[i]);
+          for (let i = 0; i < settled.length; i++) drawSettled(settled[i], c);
 
-          for (let i = drops.length - 1; i >= 0; i--) {
-            const d = drops[i];
-            d.vy = Math.min(d.vy + 0.004, 1.1);
-            d.y += d.vy;
-            d.x += (d.tx - d.x) * 0.018;
-            drawTeardrop(d);
-            if (d.y >= d.ty) {
-              settled.push({ x: d.tx, y: d.ty, r: d.r });
-              drops.splice(i, 1);
+          for (let i = streams.length - 1; i >= 0; i--) {
+            const s = streams[i];
+            if (!s.settled) {
+              s.vy = Math.min(s.vy + 0.025, 4.5);
+              s.y += s.vy;
+              if (s.y >= s.ty) {
+                s.y = s.ty;
+                s.settled = true;
+                settled.push({ x: s.tx, y: s.ty, r: s.r });
+              }
+            } else {
+              /* Trail vai derretendo após assentamento */
+              s.fade -= 0.025;
+              if (s.fade <= 0) {
+                streams.splice(i, 1);
+                continue;
+              }
             }
+            drawStream(s, c);
           }
 
-          /* Quando tudo assentou, agenda restart depois de 8s */
+          /* Reinicia 5s depois que tudo se assentou e os trails sumiram */
           if (
             targetIndex >= targets.length &&
-            drops.length === 0 &&
+            streams.length === 0 &&
             !restartTimer
           ) {
             restartTimer = setTimeout(function () {
               settled = [];
               targetIndex = 0;
               restartTimer = null;
-            }, 8000);
+            }, 5000);
           }
 
           requestAnimationFrame(tick);
