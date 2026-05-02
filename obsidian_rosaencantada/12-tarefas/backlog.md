@@ -29,7 +29,7 @@ Lista das tarefas conhecidas, priorizadas por **impacto × esforço**.
 - [ ] **Cupom de primeira compra** com tracking via UTM
 - [ ] **Newsletter mensal** (Mailchimp gratuito até 500)
 - [ ] **Service Worker** para PWA real (offline funcional)
-- [ ] **Modo escuro** (mas faz sentido para confeitaria?)
+- [x] (2026-05-02) **Modo escuro** com toggle no header — ver [[11-decisoes/0005-tema-escuro-com-toggle]]
 - [ ] **Multi-idioma EN** se aparecer demanda internacional
 
 ## 🐛 Bugs / pequenos arranjos

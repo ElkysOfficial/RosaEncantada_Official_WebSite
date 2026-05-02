@@ -32,6 +32,10 @@ A paleta foi extraída da logo. Tom dominante: rosa acolhedor com âncora em cho
 - **Gradiente primário**: rosa-vivo → rosa-deep (135deg)
 - **Sombras tingidas**: sempre baseadas em choco com baixa opacidade
 
+## Tema escuro
+
+`[data-theme="dark"]` redefine apenas superfícies e texto-base — as cores de marca (`--rosa-vivo`, `--rosa-deep`, `--rosa-pink`, `--choco`, `--choco-soft`) **não mudam**. Bases viram tons profundos de vinho/chocolate (não pretos chapados): `--creme: #1a1216`, `--rosa-claro: #2a1d22`, `--text-strong: #fbeae3`. Persistência em `localStorage['rosa-theme']`. Ver [[11-decisoes/0005-tema-escuro-com-toggle]].
+
 ## Acessibilidade
 
 - choco sobre creme: contraste **13.4:1** ✓ AAA

@@ -47,6 +47,7 @@ Inventário dos componentes do site, com variações e regras.
 - Sticky, blur(16px)
 - Encolhe ao rolar (`is-scrolled` class)
 - Scroll-spy ativa link da seção visível
+- **Theme toggle** (`#themeToggle`): botão sol/lua à direita do nav. Click alterna `data-theme` no `<html>` e persiste em `localStorage['rosa-theme']`. Ver [[11-decisoes/0005-tema-escuro-com-toggle]].
 
 ## Marquee
 

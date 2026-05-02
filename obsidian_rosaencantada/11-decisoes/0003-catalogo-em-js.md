@@ -2,7 +2,7 @@
 
 #decisao/arquitetura
 
-- **Status:** ✅ Aceita
+- **Status:** ⛔ Superseded por [[11-decisoes/0004-catalogo-em-json-externo]] (2026-05-02)
 - **Data:** 2026-04-30
 
 ## Contexto

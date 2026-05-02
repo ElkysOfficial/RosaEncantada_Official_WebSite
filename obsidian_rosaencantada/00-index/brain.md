@@ -14,8 +14,9 @@
 ## 🔥 Em andamento
 
 - Site no ar com domínio temporário Hostinger
-- Catálogo com 12 sabores (3 categorias)
+- Catálogo com 12 sabores (3 categorias) — agora servido via `data/products.json`
 - 8 schemas JSON-LD ativos
+- Tema claro/escuro com toggle no header (ADR-0005)
 
 ## ⏸️ Aguardando
 
@@ -53,4 +54,4 @@ Use este espaço para soltar ideias soltas que ainda não cabem em uma nota dedi
 
 ---
 
-*Última revisão: 2026-05-01*
+*Última revisão: 2026-05-02*

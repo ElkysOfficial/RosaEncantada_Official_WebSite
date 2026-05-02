@@ -2,9 +2,9 @@
 
 #produto/catalogo
 
-Fonte de verdade do catálogo (quase) — o catálogo **executável** vive em [[script.js|script.js]]. Ao mudar aqui, sincronizar lá.
+Fonte de verdade humana do catálogo. O catálogo **executável** vive em `data/products.json` (carregado via `fetch` em `loadProducts()` no `script.js`). Ao mudar aqui, sincronizar lá. Ver [[11-decisoes/0004-catalogo-em-json-externo]].
 
-> Última sincronização: **2026-05-01**
+> Última sincronização: **2026-05-02**
 
 ## Trufas (R$ 6,50–8,50)
 
@@ -35,15 +35,18 @@ Fonte de verdade do catálogo (quase) — o catálogo **executável** vive em [[
 
 ## Como adicionar/remover sabor
 
-1. Abra `script.js`, encontre o array `PRODUCTS`
+1. Abra `data/products.json`
 2. Adicione/remova o objeto seguindo o padrão:
-   ```js
-   { id: 'tr-xxx', cat: 'trufa', emoji: '🌟', name: 'Nome',
-     desc: 'Descrição sensorial.', price: 7.00, badge: 'Opcional' }
+   ```json
+   { "id": "tr-xxx", "cat": "trufa", "emoji": "🌟", "name": "Nome",
+     "desc": "Descrição sensorial.", "price": 7.00, "badge": "Opcional" }
    ```
 3. Atualize esta tabela aqui no vault
-4. Faça upload do `script.js` (apenas ele) para a Hostinger
-5. Limpe o LiteSpeed cache no hPanel
+4. Se o nome/preço/descrição mudou, sincronize também o JSON-LD `Product` no `@graph` do `index.html`
+5. Faça upload de `data/products.json` (e do `index.html` se mexeu no schema) para a Hostinger
+6. Limpe o LiteSpeed cache no hPanel
+
+> **Tentativa revertida (2026-04):** chegou a haver fotos do Unsplash como placeholder, mas voltou pra emoji-only (commit `5366b65`) por inconsistência visual entre fotos genéricas. Fotos reais continuam pendentes — ver [[12-tarefas/backlog]].
 
 ## Regras de descrição
 
