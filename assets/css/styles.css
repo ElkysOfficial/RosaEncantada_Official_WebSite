@@ -64,41 +64,51 @@
   --nav-mobile-bg: rgba(255, 250, 247, .98);
 }
 
-/* ============ TEMA ESCURO ============ */
+/* ============ TEMA ESCURO ============
+   Princípio: --choco e --choco-soft NÃO mudam (são cores de marca,
+   usadas como fundo do footer/CTAs). Apenas --text-strong e tokens
+   de superfície (creme, branco, cinzas, rosa-claro/suave/medio)
+   ganham equivalentes escuros para preservar a paleta da marca. */
 [data-theme="dark"] {
-  --bg-base:    #161013;
-  --bg-warm:    #1c1518;
-  --bg-soft:    #221a1d;
-  --surface:    #20181c;
-  --surface-2:  #2a2025;
-  --text:       #e9dde0;
-  --text-muted: #a99499;
-  --text-strong: #fff7f3;
-  --border:     #322428;
-  --header-bg:  rgba(22, 16, 19, .82);
-  --nav-mobile-bg: rgba(22, 16, 19, .98);
+  /* Bases (vinho/marrom escuro com toque de rosa pra harmonizar com o chocolate) */
+  --creme:      #1a1216;
+  --creme-warm: #211519;
+  --branco:     #241a1f;
+
+  /* Superfícies rosa: viram tons profundos de vinho, não pretos chapados */
   --rosa-claro: #2a1d22;
   --rosa-suave: #3a2429;
   --rosa-medio: #4a2c33;
-  --creme:      #161013;
-  --creme-warm: #1c1518;
-  --branco:     #20181c;
-  --cinza-100:  #2a2025;
-  --cinza-300:  #4a3a3d;
-  --cinza-500:  #a99499;
-  --cinza-700:  #e9dde0;
-  --choco:      #fff7f3;
-  --choco-soft: #f0d9c5;
-  --sombra-xs:  0 2px 6px rgba(0, 0, 0, .25);
-  --sombra-sm:  0 4px 14px rgba(0, 0, 0, .35);
-  --sombra-md:  0 12px 30px rgba(0, 0, 0, .45);
-  --sombra-lg:  0 25px 60px rgba(0, 0, 0, .55);
-  --sombra-xl:  0 40px 90px rgba(0, 0, 0, .65);
-  --sombra-pink: 0 18px 40px rgba(214, 51, 108, .35);
+
+  /* Texto: inverte pra ler bem em fundo escuro */
+  --text-strong: #fbeae3;     /* h1-h4, preços, links fortes */
+  --cinza-700:   #e7d6d2;     /* corpo do texto */
+  --cinza-500:   #b4a098;     /* muted (descrições) */
+  --cinza-300:   #5a4348;     /* divisórias visíveis */
+  --cinza-100:   #2e2126;     /* hairlines/borders sutis */
+
+  /* Sombras mais profundas pra criar elevação real no escuro */
+  --sombra-xs:  0 2px 6px rgba(0, 0, 0, .35);
+  --sombra-sm:  0 4px 14px rgba(0, 0, 0, .4);
+  --sombra-md:  0 12px 30px rgba(0, 0, 0, .5);
+  --sombra-lg:  0 25px 60px rgba(0, 0, 0, .6);
+  --sombra-xl:  0 40px 90px rgba(0, 0, 0, .7);
+  --sombra-pink: 0 18px 40px rgba(214, 51, 108, .4);
 }
 
 html { color-scheme: light; }
 html[data-theme="dark"] { color-scheme: dark; }
+
+/* Overrides específicos do tema escuro para elementos com cores hardcoded */
+[data-theme="dark"] .header { background: rgba(26, 18, 22, .82); }
+[data-theme="dark"] .header.is-scrolled { background: rgba(26, 18, 22, .95); }
+[data-theme="dark"] .nav { background: rgba(26, 18, 22, .98); }
+[data-theme="dark"] .form__note.is-success {
+  background: rgba(45, 106, 49, .18); color: #b8e0bc; border-color: rgba(45, 106, 49, .4);
+}
+[data-theme="dark"] .form__note.is-error {
+  background: rgba(177, 38, 78, .2); color: #f5b8c4; border-color: rgba(177, 38, 78, .45);
+}
 
 /* ============ RESET & BASE ============ */
 *, *::before, *::after { box-sizing: border-box; }
@@ -129,14 +139,14 @@ button { font: inherit; cursor: pointer; border: 0; background: none; color: inh
 ul { list-style: none; padding: 0; margin: 0; }
 h1, h2, h3, h4 {
   font-family: var(--f-display);
-  color: var(--choco);
+  color: var(--text-strong);
   margin: 0;
   line-height: 1.15;
   font-weight: 600;
   letter-spacing: -.01em;
 }
 
-::selection { background: var(--rosa-medio); color: var(--choco); }
+::selection { background: var(--rosa-medio); color: var(--text-strong); }
 
 /* Scrollbar refinado */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -234,7 +244,7 @@ body.is-loading { overflow: hidden; }
 .brand__text { display: flex; flex-direction: column; line-height: 1; }
 .brand__name {
   font-family: var(--f-display); font-size: 1.18rem;
-  font-weight: 700; color: var(--choco); letter-spacing: -.01em;
+  font-weight: 700; color: var(--text-strong); letter-spacing: -.01em;
 }
 .brand__tag {
   font-family: var(--f-script); font-size: 1.05rem;
@@ -268,7 +278,7 @@ body.is-loading { overflow: hidden; }
   width: 44px; height: 44px;
   border-radius: 50%;
   background: var(--rosa-claro);
-  color: var(--choco);
+  color: var(--text-strong);
   display: grid; place-items: center;
   transition: all var(--t-fast);
 }
@@ -291,7 +301,7 @@ body.is-loading { overflow: hidden; }
   width: 44px; height: 44px;
   border-radius: 50%;
   background: var(--rosa-claro);
-  color: var(--choco);
+  color: var(--text-strong);
   display: grid; place-items: center;
   transition: all var(--t-fast);
 }
@@ -325,7 +335,7 @@ body.is-loading { overflow: hidden; }
 }
 .menu-btn:hover { background: var(--rosa-claro); }
 .menu-btn span {
-  display: block; height: 2px; background: var(--choco); border-radius: 2px;
+  display: block; height: 2px; background: var(--text-strong); border-radius: 2px;
   transition: all var(--t-fast); transform-origin: center;
 }
 .menu-btn.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -616,8 +626,8 @@ body.is-loading { overflow: hidden; }
 .btn--primary:active { transform: translateY(-1px); }
 
 .btn--ghost {
-  background: transparent; color: var(--choco);
-  border: 1.5px solid var(--choco);
+  background: transparent; color: var(--text-strong);
+  border: 1.5px solid var(--text-strong);
 }
 .btn--ghost::before {
   content: ''; position: absolute; inset: 0;
@@ -693,7 +703,7 @@ body.is-loading { overflow: hidden; }
   position: absolute;
   top: -20px; right: -20px;
   width: 120px; height: 120px;
-  background: var(--choco); color: var(--creme);
+  background: var(--choco); color: #fffaf7;
   border-radius: 50%;
   display: grid; place-items: center;
   text-align: center;
@@ -719,7 +729,7 @@ body.is-loading { overflow: hidden; }
 }
 
 .sobre__content p { margin: 0 0 1.1rem; }
-.sobre__content p strong { color: var(--choco); font-weight: 600; }
+.sobre__content p strong { color: var(--text-strong); font-weight: 600; }
 
 .features {
   display: grid; grid-template-columns: 1fr; gap: 1rem;
@@ -781,7 +791,7 @@ body.is-loading { overflow: hidden; }
 }
 .filter.is-active {
   background: var(--choco); color: #fff;
-  border-color: var(--choco);
+  border-color: var(--text-strong);
   box-shadow: 0 8px 20px rgba(74, 36, 24, .2);
 }
 
@@ -819,7 +829,7 @@ body.is-loading { overflow: hidden; }
   aspect-ratio: 1/1;
   background: linear-gradient(135deg, var(--rosa-suave), var(--rosa-medio));
   display: grid; place-items: center;
-  font-size: 5rem; color: var(--choco);
+  font-size: 5rem; color: var(--text-strong);
   position: relative; overflow: hidden;
   transition: background var(--t-med);
 }
@@ -888,14 +898,14 @@ body.is-loading { overflow: hidden; }
 .product__price {
   font-family: var(--f-display);
   font-size: 1.45rem;
-  color: var(--choco);
+  color: var(--text-strong);
   font-weight: 600;
 }
 .product__add {
   display: inline-flex; align-items: center; gap: .35rem;
   padding: .65rem 1.15rem;
   background: var(--rosa-claro);
-  color: var(--choco);
+  color: var(--text-strong);
   border-radius: 999px;
   font-size: .85rem; font-weight: 500;
   transition: all var(--t-fast);
@@ -920,7 +930,7 @@ body.is-loading { overflow: hidden; }
   border-bottom: 1.5px solid currentColor;
   transition: color var(--t-fast);
 }
-.produtos__note a:hover { color: var(--choco); }
+.produtos__note a:hover { color: var(--text-strong); }
 
 /* ============ PROCESSO ============ */
 .processo { background: var(--branco); }
@@ -980,7 +990,7 @@ body.is-loading { overflow: hidden; }
   padding-left: 2rem;
   font-size: .98rem;
 }
-.bullets li strong { color: var(--choco); font-weight: 600; }
+.bullets li strong { color: var(--text-strong); font-weight: 600; }
 .bullets li::before {
   content: ''; position: absolute; left: 0; top: .55em;
   width: 16px; height: 16px;
@@ -1082,7 +1092,7 @@ body.is-loading { overflow: hidden; }
   padding-top: 1rem;
 }
 .testimonial figcaption strong {
-  color: var(--choco);
+  color: var(--text-strong);
   font-family: var(--f-display);
   font-size: 1rem;
   font-weight: 600;
@@ -1116,7 +1126,7 @@ body.is-loading { overflow: hidden; }
 }
 .contato__list a {
   font-size: 1rem;
-  color: var(--choco);
+  color: var(--text-strong);
   font-weight: 500;
   transition: color var(--t-fast);
 }
@@ -1148,7 +1158,7 @@ body.is-loading { overflow: hidden; }
 .contato__form-title {
   font-size: 1.4rem;
   margin: 0;
-  color: var(--choco);
+  color: var(--text-strong);
 }
 .contato__form-sub {
   margin: -.4rem 0 .6rem;
@@ -1160,7 +1170,7 @@ body.is-loading { overflow: hidden; }
 .field label {
   font-size: .82rem;
   font-weight: 600;
-  color: var(--choco);
+  color: var(--text-strong);
   letter-spacing: .02em;
 }
 .field input, .field select, .field textarea {
@@ -1346,7 +1356,7 @@ body.is-loading { overflow: hidden; }
   width: 38px; height: 38px;
   border-radius: 50%;
   background: var(--rosa-claro);
-  color: var(--choco);
+  color: var(--text-strong);
   display: grid; place-items: center;
   transition: all var(--t-fast);
 }
@@ -1377,7 +1387,7 @@ body.is-loading { overflow: hidden; }
 .cart-empty strong {
   display: block;
   font-family: var(--f-display);
-  color: var(--choco);
+  color: var(--text-strong);
   font-size: 1.15rem;
   margin-bottom: .35rem;
 }
@@ -1401,7 +1411,7 @@ body.is-loading { overflow: hidden; }
   font-size: 1.7rem;
 }
 .cart-item__name {
-  font-weight: 500; color: var(--choco);
+  font-weight: 500; color: var(--text-strong);
   font-size: .95rem; line-height: 1.3;
 }
 .cart-item__price {
@@ -1419,7 +1429,7 @@ body.is-loading { overflow: hidden; }
 .cart-item__qty button {
   width: 24px; height: 24px;
   border-radius: 50%;
-  background: var(--branco); color: var(--choco);
+  background: var(--branco); color: var(--text-strong);
   font-size: .9rem; font-weight: 600;
   line-height: 1;
   display: grid; place-items: center;
@@ -1451,7 +1461,7 @@ body.is-loading { overflow: hidden; }
 .cart__total-label {
   display: block;
   font-weight: 600;
-  color: var(--choco);
+  color: var(--text-strong);
   font-size: .95rem;
 }
 .cart__total small {
@@ -1475,7 +1485,7 @@ body.is-loading { overflow: hidden; }
   min-width: 240px; max-width: 320px;
   padding: .9rem 1.15rem;
   background: var(--choco);
-  color: var(--creme);
+  color: #fffaf7;
   border-radius: var(--radius-md);
   font-size: .9rem;
   font-weight: 500;
@@ -1523,7 +1533,7 @@ body.is-loading { overflow: hidden; }
   right: calc(100% + 12px);
   top: 50%; transform: translateY(-50%) translateX(8px);
   background: var(--choco);
-  color: var(--creme);
+  color: #fffaf7;
   padding: .5rem .85rem;
   border-radius: 999px;
   font-size: .8rem;
