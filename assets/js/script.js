@@ -24,6 +24,7 @@ function renderProducts() {
       <div class="product__media">
         ${p.badge ? `<span class="product__badge">${p.badge}</span>` : ''}
         <span aria-hidden="true">${p.emoji}</span>
+        ${p.image ? `<img class="product__photo" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.remove()" />` : ''}
       </div>
       <div class="product__body">
         <span class="product__cat">${categoryLabel(p.cat)}</span>
@@ -42,7 +43,7 @@ function renderProducts() {
   observeReveals();
 }
 function categoryLabel(c) {
-  return { trufa: 'Trufa Artesanal', bombom: 'Bombom', caixa: 'Caixa Presente' }[c] || c;
+  return { trufa: 'Trufa Artesanal', caixa: 'Caixa Presente' }[c] || c;
 }
 
 /* ============ FILTROS ============ */
