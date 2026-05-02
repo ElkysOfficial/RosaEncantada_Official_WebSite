@@ -3,6 +3,12 @@
 Cada arquivo JPG aqui é renderizado num card do catálogo do site (`#produtos`).
 Se o arquivo não existir, o card cai automaticamente no emoji do produto (definido em `data/products.json`).
 
+> **Estado atual (placeholder):** os 9 produtos estão usando fotos do
+> Unsplash apontadas diretamente em `data/products.json` (campo `image`
+> com URL `https://images.unsplash.com/...`). Para trocar por fotos reais,
+> coloque os JPGs aqui (nomes abaixo) e mude o `image` de cada produto
+> em `data/products.json` para `assets/img/products/<id>.jpg`.
+
 ## Convenção
 - Formato: **JPG** (ou PNG, mas JPG comprime melhor para fotos)
 - Proporção: **quadrada (1:1)** — o site faz `object-fit: cover`, mas começar quadrado evita corte
