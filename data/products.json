@@ -30,7 +30,7 @@
     "desc": "Caixa com 16 trufas sortidas, embalagem refinada para entregar com elegância.",
     "price": 84.90 },
   { "id": "cx-25",   "cat": "caixa",  "emoji": "💝", "name": "Caixa Encantada · 25",
-    "desc": "Caixa premium com 25 trufas sortidas — para datas que pedem um presente memorável.",
+    "desc": "Caixa premium com 25 trufas sortidas, para datas que pedem um presente memorável.",
     "price": 129.90, "badge": "Premium" },
   { "id": "cx-mini", "cat": "caixa",  "emoji": "💗", "name": "Mini Lembrança",
     "desc": "Caixinha individual com 3 trufas, perfeita para lembrancinhas de eventos e mimos do dia a dia.",
