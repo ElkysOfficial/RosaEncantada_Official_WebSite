@@ -1,9 +1,9 @@
 /* ====================================================================
-   ROSA ENCANTADA BY LORRAINE — Interações premium
+   ROSA ENCANTADA BY LORRAINE, Interações premium
    ==================================================================== */
 
 /* ============ CATÁLOGO ============ */
-/* Carregado de data/products.json em loadProducts() — ver INIT */
+/* Carregado de data/products.json em loadProducts(), ver INIT */
 let PRODUCTS = [];
 
 const WHATSAPP_NUMBER = '5531986977393';
@@ -196,7 +196,7 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
     const p = PRODUCTS.find(x => x.id === id);
     const qty = state.cart[id];
     total += p.price * qty;
-    return `• ${qty}x ${p.name} — ${fmt(p.price * qty)}`;
+    return `• ${qty}x ${p.name}, ${fmt(p.price * qty)}`;
   });
 
   const msg = encodeURIComponent(
@@ -223,7 +223,7 @@ contactForm.addEventListener('submit', (e) => {
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
   formNote.hidden = false;
   formNote.className = 'form__note is-success';
-  formNote.textContent = 'Sua mensagem está pronta no WhatsApp — basta enviar. 🌸';
+  formNote.textContent = 'Sua mensagem está pronta no WhatsApp, basta enviar. 🌸';
   contactForm.reset();
   setTimeout(() => { formNote.hidden = true; }, 5000);
 });
@@ -366,7 +366,7 @@ function injectProductSchema() {
   const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": "Catálogo Rosa Encantada — Trufas e Bombons Artesanais",
+    "name": "Catálogo Rosa Encantada, Trufas e Bombons Artesanais",
     "description": "Trufas, bombons e caixas presente feitos à mão com chocolate belga.",
     "numberOfItems": PRODUCTS.length,
     "itemListElement": PRODUCTS.map((p, i) => ({
