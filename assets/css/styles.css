@@ -780,13 +780,14 @@ body.is-loading { overflow: hidden; }
   padding: .7rem 1.5rem;
   font-size: .88rem; font-weight: 500;
   border-radius: 999px;
-  background: var(--branco); color: var(--cinza-700);
+  background: var(--rosa-suave); color: var(--text-strong);
   border: 1.5px solid transparent;
   transition: all var(--t-fast);
 }
 .filter:hover {
+  background: var(--rosa-medio);
   border-color: var(--rosa-pink);
-  color: var(--rosa-vivo);
+  color: var(--text-strong);
   transform: translateY(-2px);
 }
 .filter.is-active {
