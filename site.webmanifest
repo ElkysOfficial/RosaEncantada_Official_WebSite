@@ -1,0 +1,47 @@
+{
+  "name": "Rosa Encantada by Lorraine",
+  "short_name": "Rosa Encantada",
+  "description": "Trufas e bombons artesanais feitos à mão, com chocolate belga e ingredientes selecionados.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#d6336c",
+  "background_color": "#fffaf7",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["food", "shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "assets/img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver sabores",
+      "short_name": "Sabores",
+      "description": "Catálogo de trufas e bombons",
+      "url": "/#produtos"
+    },
+    {
+      "name": "Encomendar",
+      "short_name": "Encomenda",
+      "description": "Solicitar orçamento personalizado",
+      "url": "/#encomendas"
+    },
+    {
+      "name": "Falar no WhatsApp",
+      "short_name": "WhatsApp",
+      "url": "https://wa.me/5531986977393"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+# =====================================================================
+# Rosa Encantada by Lorraine — .htaccess
+# Hospedagem: Hostinger (Apache + LiteSpeed)
+# =====================================================================
+# LiteSpeed honra a maioria das diretivas Apache.
+# Em caso de erro 500 após upload: comente HSTS, CSP ou mod_brotli.
+# =====================================================================
+
+# ============ SEGURANÇA: ESCONDER ARQUIVOS SENSÍVEIS ============
+<FilesMatch "^\.(htaccess|htpasswd|env|git|gitignore|DS_Store)|^(humans\.txt)?$">
+  # mantém humans.txt acessível, bloqueia arquivos ocultos perigosos
+</FilesMatch>
+<FilesMatch "^\.(env|git|gitignore|htpasswd)|\.(bak|swp|log|sql)$">
+  Require all denied
+</FilesMatch>
+
+# Desativa listagem de diretórios
+Options -Indexes
+
+# Esconde a versão do Apache
+ServerSignature Off
+
+# ============ ENCODING PADRÃO ============
+AddDefaultCharset UTF-8
+
+# ============ MOTOR DE REWRITE ============
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # ----- Forçar HTTPS -----
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # ----- Forçar SEM www (escolha 1: sem www) -----
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+  # ----- Remover trailing slash de arquivos -----
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # ----- Remover .html da URL -----
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>
+
+# ============ PÁGINAS DE ERRO ============
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+ErrorDocument 500 /404.html
+
+# ============ HEADERS DE SEGURANÇA ============
+<IfModule mod_headers.c>
+  # Previne MIME-sniffing
+  Header set X-Content-Type-Options "nosniff"
+
+  # Anti-clickjacking
+  Header set X-Frame-Options "SAMEORIGIN"
+
+  # Política de referência
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Permissions Policy (limita APIs do navegador)
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # HSTS (1 ano + subdomínios) — só ative com HTTPS rodando estável
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
+
+  # Cross-Origin policies
+  Header set Cross-Origin-Opener-Policy "same-origin"
+  Header set Cross-Origin-Resource-Policy "same-site"
+
+  # CSP — Content Security Policy (ajuste conforme necessário)
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://wa.me; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me; upgrade-insecure-requests"
+
+  # Remover header que vaza informação
+  Header unset X-Powered-By
+  Header unset Server
+</IfModule>
+
+# ============ COMPRESSÃO GZIP/DEFLATE ============
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript text/xml text/plain
+  AddOutputFilterByType DEFLATE application/javascript application/json application/xml
+  AddOutputFilterByType DEFLATE application/rss+xml application/atom+xml
+  AddOutputFilterByType DEFLATE image/svg+xml application/manifest+json
+  AddOutputFilterByType DEFLATE font/ttf font/otf font/woff font/woff2 application/font-woff
+</IfModule>
+
+# ============ COMPRESSÃO BROTLI (se disponível) ============
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/javascript text/xml text/plain
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json application/xml
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml application/manifest+json
+</IfModule>
+
+# ============ CACHE / EXPIRES ============
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+
+  # HTML — sem cache agressivo (sempre atualiza)
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # XML/JSON dinâmicos
+  ExpiresByType application/xml "access plus 1 hour"
+  ExpiresByType application/json "access plus 1 hour"
+  ExpiresByType application/manifest+json "access plus 1 week"
+
+  # CSS / JS
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+
+  # Imagens
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # Fontes
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+
+  # Favicon
+  ExpiresByType image/vnd.microsoft.icon "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Cache imutável para assets versionados
+  <FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|webp|avif|woff|woff2|ttf|otf|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML sempre revalidado
+  <FilesMatch "\.(html|xml|json)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Sitemap e robots
+  <FilesMatch "(sitemap\.xml|robots\.txt)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>
+
+# ============ LITESPEED CACHE (Hostinger) ============
+<IfModule LiteSpeed>
+  CacheLookup on
+
+  # Habilita cache público para assets estáticos
+  RewriteEngine On
+  RewriteRule .* - [E=Cache-Control:max-age=31536000]
+
+  # Não cacheia HTML pelo LiteSpeed (mantém atualizado)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ============ MIME TYPES ============
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType image/svg+xml .svg .svgz
+  AddType image/webp .webp
+  AddType image/avif .avif
+  AddType font/woff .woff
+  AddType font/woff2 .woff2
+  AddType application/xml .xml
+  AddCharset UTF-8 .html .css .js .xml .json .svg .webmanifest
+</IfModule>

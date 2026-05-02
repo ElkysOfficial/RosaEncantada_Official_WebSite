@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <title>Página não encontrada — Rosa Encantada by Lorraine</title>
+    <meta name="description" content="A página que você procurava não existe ou foi movida. Volte ao início e descubra nossas trufas artesanais." />
+    <meta name="theme-color" content="#d6336c" />
+
+    <link rel="canonical" href="https://green-hippopotamus-490496.hostingersite.com/" />
+    <link rel="icon" type="image/png" href="assets/img/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --rosa-claro: #fdeef2;
+        --rosa-suave: #fbd5dd;
+        --rosa-medio: #f7c6d3;
+        --rosa-vivo: #d6336c;
+        --rosa-deep: #b1264e;
+        --choco: #4a2418;
+        --creme: #fffaf7;
+        --cinza-500: #8a7479;
+        --cinza-700: #4a3a3d;
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: linear-gradient(180deg, var(--rosa-claro) 0%, var(--creme) 100%);
+        color: var(--cinza-700);
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 2rem 1.5rem;
+        overflow: hidden;
+        position: relative;
+        line-height: 1.7;
+      }
+      body::before,
+      body::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.55;
+        pointer-events: none;
+        animation: float 18s ease-in-out infinite;
+      }
+      body::before {
+        width: 380px;
+        height: 380px;
+        background: var(--rosa-medio);
+        top: -100px;
+        left: -80px;
+      }
+      body::after {
+        width: 460px;
+        height: 460px;
+        background: var(--rosa-suave);
+        bottom: -140px;
+        right: -120px;
+        animation-delay: -7s;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(30px, -40px) scale(1.05);
+        }
+      }
+
+      .wrap {
+        position: relative;
+        max-width: 640px;
+        text-align: center;
+        animation: rise 0.9s var(--ease);
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 2px solid var(--rosa-suave);
+        box-shadow: 0 12px 28px rgba(74, 36, 24, 0.12);
+        margin: 0 auto 2rem;
+        animation: bob 5s ease-in-out infinite;
+      }
+      @keyframes bob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .code {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(7rem, 22vw, 12rem);
+        font-weight: 700;
+        line-height: 1;
+        color: var(--choco);
+        letter-spacing: -0.04em;
+        position: relative;
+        display: inline-block;
+      }
+      .code .zero {
+        display: inline-block;
+        color: var(--rosa-vivo);
+        animation: spin 8s linear infinite;
+        transform-origin: 50% 55%;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .eyebrow {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.4rem;
+        color: var(--rosa-vivo);
+        margin: 1rem 0 0.5rem;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        color: var(--choco);
+        letter-spacing: -0.02em;
+        margin: 0 0 1rem;
+        line-height: 1.2;
+      }
+      h1 em {
+        font-family: "Dancing Script", cursive;
+        font-style: normal;
+        color: var(--rosa-vivo);
+      }
+
+      .lead {
+        font-size: 1.05rem;
+        max-width: 500px;
+        margin: 0 auto 2.2rem;
+        color: var(--cinza-500);
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.85rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.95rem 1.8rem;
+        border-radius: 999px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.25s var(--ease);
+        text-decoration: none;
+        border: 1.5px solid transparent;
+      }
+      .btn--primary {
+        background: linear-gradient(135deg, var(--rosa-vivo), var(--rosa-deep));
+        color: #fff;
+        box-shadow: 0 14px 30px rgba(214, 51, 108, 0.28);
+      }
+      .btn--primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 36px rgba(74, 36, 24, 0.25);
+        background: var(--choco);
+      }
+      .btn--ghost {
+        color: var(--choco);
+        border-color: var(--choco);
+      }
+      .btn--ghost:hover {
+        background: var(--choco);
+        color: #fff;
+      }
+
+      .quick {
+        padding-top: 2rem;
+        border-top: 1px solid rgba(214, 51, 108, 0.15);
+      }
+      .quick p {
+        font-size: 0.85rem;
+        color: var(--cinza-500);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+      .quick ul {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .quick a {
+        color: var(--choco);
+        font-weight: 500;
+        font-size: 0.95rem;
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 2px;
+        transition: color 0.25s var(--ease);
+      }
+      .quick a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1.5px;
+        background: var(--rosa-vivo);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s var(--ease);
+      }
+      .quick a:hover {
+        color: var(--rosa-vivo);
+      }
+      .quick a:hover::after {
+        transform: scaleX(1);
+      }
+
+      @media (max-width: 480px) {
+        .actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .btn {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+     
+
+      <div class="code" aria-hidden="true">4 <img src="assets/img/logo.png" alt="Rosa Encantada" class="logo" /></span>4</div>
+
+      <span class="eyebrow">Ops, doce engano</span>
+      <h1>Essa página <em>derreteu no caminho</em>.</h1>
+      <p class="lead">O endereço que você buscava não existe ou foi movido para outro lugar. Mas calma: as trufas continuam aqui, perfeitinhas.</p>
+
+      <div class="actions">
+        <a href="/" class="btn btn--primary"> ← Voltar para o início </a>
+        <a href="/#produtos" class="btn btn--ghost"> Ver os sabores </a>
+      </div>
+
+      <nav class="quick" aria-label="Atalhos">
+        <p>Talvez você queira</p>
+        <ul>
+          <li><a href="/#sobre">Nossa história</a></li>
+          <li><a href="/#processo">Processo</a></li>
+          <li><a href="/#encomendas">Encomendas</a></li>
+          <li><a href="/#contato">Contato</a></li>
+          <li><a href="https://wa.me/5531986977393" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </nav>
+    </main>
+  </body>
+</html>

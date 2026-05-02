@@ -1,0 +1,43 @@
+# =====================================================================
+# Rosa Encantada - .gitignore
+# =====================================================================
+
+# ----- Obsidian (config por usuário, não versionar) -----
+.obsidian/
+.trash/
+.obsidian.vimrc
+
+# ----- Sistema operacional -----
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ----- Editores / IDEs -----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ----- Logs / temporários -----
+*.log
+*.bak
+*.tmp
+*.cache
+npm-debug.log*
+
+# ----- Dependências (caso futuramente use build) -----
+node_modules/
+dist/
+build/
+.env
+.env.local
+
+# ----- Saída de scripts -----
+*.tmp.png
+
+# ----- Backups e versões locais -----
+*-backup.*
+*-old.*
