@@ -229,6 +229,17 @@ contactForm.addEventListener('submit', (e) => {
   setTimeout(() => { formNote.hidden = true; }, 5000);
 });
 
+/* ============ THEME TOGGLE ============ */
+const themeToggleBtn = document.getElementById('themeToggle');
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('rosa-theme', next); } catch (e) {}
+  });
+}
+
 /* ============ MENU MOBILE ============ */
 const menuBtn = document.getElementById('menuBtn');
 const navEl   = document.getElementById('nav');

@@ -11,6 +11,16 @@
     <link rel="canonical" href="https://green-hippopotamus-490496.hostingersite.com/" />
     <link rel="icon" type="image/png" href="assets/img/logo.png" />
 
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('rosa-theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+        } catch (e) {}
+      })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,6 +41,17 @@
         --cinza-700: #4a3a3d;
         --ease: cubic-bezier(0.22, 1, 0.36, 1);
       }
+      [data-theme="dark"] {
+        --rosa-claro: #221a1d;
+        --rosa-suave: #3a2429;
+        --rosa-medio: #4a2c33;
+        --choco: #fff7f3;
+        --creme: #161013;
+        --cinza-500: #a99499;
+        --cinza-700: #e9dde0;
+      }
+      html { color-scheme: light; }
+      html[data-theme="dark"] { color-scheme: dark; }
       * {
         box-sizing: border-box;
         margin: 0;
@@ -83,11 +104,28 @@
         }
       }
 
+      #chocoCanvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .code-fallback {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(7rem, 22vw, 12rem);
+        font-weight: 700;
+        color: var(--choco);
+        letter-spacing: -0.04em;
+        line-height: 1;
+        margin-bottom: 1.5rem;
+      }
       .wrap {
         position: relative;
+        z-index: 2;
         max-width: 640px;
         text-align: center;
         animation: rise 0.9s var(--ease);
+        padding-top: clamp(180px, 38vh, 360px);
       }
       @keyframes rise {
         from {
@@ -266,10 +304,12 @@
     </style>
   </head>
   <body>
-    <main class="wrap">
-     
+    <canvas id="chocoCanvas" aria-hidden="true"></canvas>
 
-      <div class="code" aria-hidden="true">4 <img src="assets/img/logo.png" alt="Rosa Encantada" class="logo" /></span>4</div>
+    <main class="wrap">
+      <noscript>
+        <div class="code-fallback" aria-hidden="true">404</div>
+      </noscript>
 
       <span class="eyebrow">Ops, doce engano</span>
       <h1>Essa página <em>derreteu no caminho</em>.</h1>
@@ -289,5 +329,168 @@
         </ul>
       </nav>
     </main>
+
+    <script>
+      /* Chuva lenta de gotas de chocolate que se acumulam formando 404 */
+      (function () {
+        const canvas = document.getElementById('chocoCanvas');
+        if (!canvas || !canvas.getContext) return;
+        const ctx = canvas.getContext('2d');
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        let W = 0, H = 0;
+        let targets = [];
+        let drops = [];
+        let settled = [];
+        let targetIndex = 0;
+        let lastSpawn = 0;
+        let restartTimer = null;
+
+        function chocolateColor() {
+          return document.documentElement.getAttribute('data-theme') === 'dark'
+            ? '#7a3e2a'
+            : '#4a2418';
+        }
+
+        function resize() {
+          W = window.innerWidth;
+          H = window.innerHeight;
+          canvas.width = W * dpr;
+          canvas.height = H * dpr;
+          canvas.style.width = W + 'px';
+          canvas.style.height = H + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          computeTargets();
+          drops = [];
+          settled = [];
+          targetIndex = 0;
+        }
+
+        function computeTargets() {
+          targets = [];
+          const fontSize = Math.min(W * 0.32, H * 0.45, 320);
+          const centerY = Math.min(H * 0.28, 220);
+
+          const off = document.createElement('canvas');
+          off.width = W;
+          off.height = H;
+          const octx = off.getContext('2d');
+          octx.fillStyle = '#000';
+          octx.font = '700 ' + fontSize + 'px "Playfair Display", Georgia, serif';
+          octx.textAlign = 'center';
+          octx.textBaseline = 'middle';
+          octx.fillText('404', W / 2, centerY);
+
+          const data = octx.getImageData(0, 0, W, H).data;
+          const step = Math.max(7, Math.floor(fontSize / 26));
+          for (let y = 0; y < H; y += step) {
+            for (let x = 0; x < W; x += step) {
+              if (data[(y * W + x) * 4 + 3] > 128) {
+                targets.push({ x: x, y: y });
+              }
+            }
+          }
+          /* shuffle para preenchimento orgânico */
+          for (let i = targets.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const tmp = targets[i];
+            targets[i] = targets[j];
+            targets[j] = tmp;
+          }
+        }
+
+        function spawnDrop() {
+          if (targetIndex >= targets.length) return;
+          const t = targets[targetIndex++];
+          drops.push({
+            x: t.x + (Math.random() - 0.5) * 80,
+            y: -20 - Math.random() * 120,
+            tx: t.x,
+            ty: t.y,
+            vy: 0.35 + Math.random() * 0.35,
+            r: 3.5 + Math.random() * 1.8,
+          });
+        }
+
+        function drawSettled(s) {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r * 1.15, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        function drawTeardrop(d) {
+          ctx.beginPath();
+          ctx.moveTo(d.x, d.y - d.r * 1.6);
+          ctx.bezierCurveTo(
+            d.x + d.r * 1.05, d.y - d.r * 0.5,
+            d.x + d.r * 1.05, d.y + d.r,
+            d.x, d.y + d.r * 1.4
+          );
+          ctx.bezierCurveTo(
+            d.x - d.r * 1.05, d.y + d.r,
+            d.x - d.r * 1.05, d.y - d.r * 0.5,
+            d.x, d.y - d.r * 1.6
+          );
+          ctx.fill();
+        }
+
+        function tick(now) {
+          ctx.clearRect(0, 0, W, H);
+          ctx.fillStyle = chocolateColor();
+
+          if (now - lastSpawn > 38) {
+            spawnDrop();
+            lastSpawn = now;
+          }
+
+          for (let i = 0; i < settled.length; i++) drawSettled(settled[i]);
+
+          for (let i = drops.length - 1; i >= 0; i--) {
+            const d = drops[i];
+            d.vy = Math.min(d.vy + 0.004, 1.1);
+            d.y += d.vy;
+            d.x += (d.tx - d.x) * 0.018;
+            drawTeardrop(d);
+            if (d.y >= d.ty) {
+              settled.push({ x: d.tx, y: d.ty, r: d.r });
+              drops.splice(i, 1);
+            }
+          }
+
+          /* Quando tudo assentou, agenda restart depois de 8s */
+          if (
+            targetIndex >= targets.length &&
+            drops.length === 0 &&
+            !restartTimer
+          ) {
+            restartTimer = setTimeout(function () {
+              settled = [];
+              targetIndex = 0;
+              restartTimer = null;
+            }, 8000);
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        function start() {
+          resize();
+          requestAnimationFrame(tick);
+        }
+
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(start);
+        } else {
+          setTimeout(start, 250);
+        }
+
+        let resizeTimer;
+        window.addEventListener('resize', function () {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(resize, 200);
+        });
+      })();
+
+    </script>
   </body>
 </html>
