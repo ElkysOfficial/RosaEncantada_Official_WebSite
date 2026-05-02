@@ -259,7 +259,7 @@ window.addEventListener('scroll', onScroll, { passive: true });
 
 /* ============ SCROLL-SPY (link ativo no header) ============ */
 const navLinks = document.querySelectorAll('.nav__link');
-const sections = ['hero', 'sobre', 'produtos', 'processo', 'encomendas', 'contato']
+const sections = ['hero', 'produtos', 'encomendas', 'contato']
   .map(id => document.getElementById(id))
   .filter(Boolean);
 
