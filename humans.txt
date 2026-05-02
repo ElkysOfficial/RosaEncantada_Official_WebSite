@@ -1,0 +1,14 @@
+/* TEAM */
+Confeiteira: Lorraine
+Site: Rosa Encantada by Lorraine
+Contato: contato@rosaencantada.com
+Localização: Brasil
+
+/* SITE */
+Última atualização: 2026/05/01
+Idioma: Português (Brasil)
+Tecnologia: HTML5, CSS3, JavaScript Vanilla
+Doutrina: Pequenos lotes, ingredientes de verdade, tempo certo.
+
+/* THANKS */
+A cada cliente que provou, voltou e indicou. Vocês são o motivo.
