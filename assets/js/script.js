@@ -338,29 +338,6 @@ if (window.matchMedia('(hover: hover)').matches) {
   });
 }
 
-/* ============ CONTAGEM ANIMADA (floating cards) ============ */
-function animateNumber(el, target, suffix = '', duration = 1400) {
-  const start = performance.now();
-  function tick(now) {
-    const t = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - t, 3);
-    const value = Math.floor(eased * target);
-    el.textContent = `+${value}${suffix}`;
-    if (t < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-const clientCard = document.querySelector('.floating-card--1 strong');
-if (clientCard) {
-  const obs = new IntersectionObserver((entries, observer) => {
-    if (entries[0].isIntersecting) {
-      animateNumber(clientCard, 500);
-      observer.disconnect();
-    }
-  });
-  obs.observe(clientCard);
-}
-
 /* ============ JSON-LD DINÂMICO PARA PRODUTOS ============ */
 function injectProductSchema() {
   const itemList = {
