@@ -110,6 +110,236 @@ html[data-theme="dark"] { color-scheme: dark; }
   background: rgba(177, 38, 78, .2); color: #f5b8c4; border-color: rgba(177, 38, 78, .45);
 }
 
+/* ============ PRODUTOS — DARK THEME REFINO ============
+   Light theme já cuidado pelos tokens. No escuro, os tokens de rosa
+   ficam muito próximos do fundo e os cards somem. Aqui empurramos
+   contraste, calor e brilho rosé pra seção respirar. */
+[data-theme="dark"] .produtos {
+  background: #1d1318;
+  background-image:
+    radial-gradient(ellipse at 12% 18%, rgba(214, 51, 108, .18) 0%, transparent 45%),
+    radial-gradient(ellipse at 88% 82%, rgba(232, 122, 154, .12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(74, 36, 24, .35) 0%, transparent 70%);
+}
+[data-theme="dark"] .filter {
+  background: rgba(255, 255, 255, .04);
+  border-color: rgba(232, 122, 154, .18);
+  color: var(--text-strong);
+}
+[data-theme="dark"] .filter:hover {
+  background: rgba(214, 51, 108, .14);
+  border-color: var(--rosa-pink);
+}
+[data-theme="dark"] .filter.is-active {
+  background: linear-gradient(135deg, var(--rosa-vivo), var(--rosa-deep));
+  border-color: var(--rosa-pink);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(214, 51, 108, .35);
+}
+[data-theme="dark"] .product {
+  background: linear-gradient(180deg, #2e2026 0%, #261a20 100%);
+  border: 1px solid rgba(232, 122, 154, .1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .45);
+}
+[data-theme="dark"] .product:hover {
+  border-color: rgba(232, 122, 154, .28);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .6), 0 0 0 1px rgba(214, 51, 108, .18);
+}
+[data-theme="dark"] .product__media {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(232, 122, 154, .35), transparent 65%),
+    linear-gradient(135deg, #4a2c33 0%, #3a2129 100%);
+}
+[data-theme="dark"] .product__media::after {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 220, 230, .18), transparent 55%),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, .05), transparent 50%);
+}
+[data-theme="dark"] .product__badge {
+  background: linear-gradient(135deg, var(--rosa-vivo), var(--rosa-deep));
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(214, 51, 108, .45);
+}
+[data-theme="dark"] .product__cat { color: var(--rosa-pink); }
+[data-theme="dark"] .product__foot { border-top-color: rgba(232, 122, 154, .12); }
+[data-theme="dark"] .product__add {
+  background: rgba(232, 122, 154, .12);
+  color: var(--text-strong);
+  border-color: rgba(232, 122, 154, .2);
+}
+[data-theme="dark"] .product__add:hover {
+  background: var(--rosa-vivo);
+  color: #fff;
+  border-color: var(--rosa-vivo);
+}
+
+/* ============ DARK THEME — DEMAIS SEÇÕES ============
+   Mesma filosofia da seção produtos: empurrar contraste entre
+   superfícies (que ficam todas próximas no escuro), trazer calor
+   com gradientes rosé/chocolate e dar pop aos acentos rosa. */
+
+/* HERO — gradiente mais profundo, blobs com brilho rosé real */
+[data-theme="dark"] .hero {
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(214, 51, 108, .14) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(232, 122, 154, .1) 0%, transparent 60%),
+    linear-gradient(180deg, #1f141a 0%, #1a1216 100%);
+}
+[data-theme="dark"] .blob--1 { background: #6b2643; opacity: .55; }
+[data-theme="dark"] .blob--2 { background: #4a2c33; opacity: .65; }
+[data-theme="dark"] .blob--3 { background: #5a3a1c; opacity: .35; }
+[data-theme="dark"] .hero__chips li {
+  background: rgba(255, 255, 255, .04);
+  border-color: rgba(232, 122, 154, .25);
+  color: #f4dfd5;
+  backdrop-filter: blur(8px);
+}
+[data-theme="dark"] .hero__chips li:hover {
+  background: rgba(214, 51, 108, .14);
+  border-color: var(--rosa-pink);
+}
+[data-theme="dark"] .floating-card {
+  background: linear-gradient(180deg, #2e2026, #261a20);
+  border-color: rgba(232, 122, 154, .18);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .55);
+}
+[data-theme="dark"] .floating-card span { color: #b4a098; }
+
+/* MARQUEE — texto rosa-medio em fundo choco fica invisível no dark */
+[data-theme="dark"] .marquee { color: #f4dfd5; }
+[data-theme="dark"] .marquee__track span:nth-child(even) { color: var(--rosa-pink); }
+
+/* SOBRE — moldura da imagem com mais brilho rosé */
+[data-theme="dark"] .sobre {
+  background: linear-gradient(180deg, #1a1216 0%, #1d1318 100%);
+}
+[data-theme="dark"] .sobre__media-inner {
+  background:
+    radial-gradient(circle at 50% 60%, rgba(232, 122, 154, .35) 0%, transparent 65%),
+    linear-gradient(135deg, #3a2429, #4a2c33);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(232, 122, 154, .12);
+}
+
+/* PROCESSO — cards quase invisíveis no fundo branco-dark */
+[data-theme="dark"] .processo { background: #1a1216; }
+[data-theme="dark"] .step {
+  background: linear-gradient(180deg, #2a1d22 0%, #241a1f 100%);
+  border-color: rgba(232, 122, 154, .1);
+}
+[data-theme="dark"] .step:hover {
+  background: linear-gradient(180deg, #321f27 0%, #2a1820 100%);
+  border-color: rgba(232, 122, 154, .3);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .5);
+}
+[data-theme="dark"] .step__num { -webkit-text-stroke-color: var(--rosa-pink); }
+
+/* ENCOMENDAS — mesma moléstia dos produtos: card e fundo iguais */
+[data-theme="dark"] .encomendas {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(214, 51, 108, .12) 0%, transparent 50%),
+    #1d1318;
+}
+[data-theme="dark"] .bullets li::before {
+  box-shadow: 0 0 0 4px rgba(214, 51, 108, .22);
+}
+[data-theme="dark"] .encomendas__card {
+  background: linear-gradient(180deg, #2e2026 0%, #261a20 100%);
+  border-left-color: var(--rosa-pink);
+  border-top: 1px solid rgba(232, 122, 154, .08);
+  border-right: 1px solid rgba(232, 122, 154, .08);
+  border-bottom: 1px solid rgba(232, 122, 154, .08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+}
+[data-theme="dark"] .encomendas__card::before {
+  background: linear-gradient(135deg, rgba(214, 51, 108, .12), transparent 70%);
+}
+[data-theme="dark"] .encomendas__card:hover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .5);
+}
+
+/* DEPOIMENTOS — gradiente sumia (rosa-claro→branco viram tons quase iguais) */
+[data-theme="dark"] .depoimentos {
+  background:
+    radial-gradient(ellipse at 0% 100%, rgba(214, 51, 108, .1) 0%, transparent 55%),
+    linear-gradient(180deg, #1d1318 0%, #1a1216 100%);
+}
+[data-theme="dark"] .testimonial {
+  background: linear-gradient(180deg, #2e2026 0%, #261a20 100%);
+  border-color: rgba(232, 122, 154, .12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .4);
+}
+[data-theme="dark"] .testimonial:hover {
+  border-color: rgba(232, 122, 154, .3);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, .55);
+}
+[data-theme="dark"] .testimonial::before { color: var(--rosa-pink); opacity: .35; }
+[data-theme="dark"] .testimonial:hover::before { opacity: .6; }
+[data-theme="dark"] .testimonial figcaption { border-top-color: rgba(232, 122, 154, .12); }
+[data-theme="dark"] .testimonial__stars { color: #e2b878; }
+
+/* CONTATO — form e inputs precisam destacar */
+[data-theme="dark"] .contato { background: #1a1216; }
+[data-theme="dark"] .contato__list li { border-bottom-color: rgba(232, 122, 154, .1); }
+[data-theme="dark"] .contato__form {
+  background: linear-gradient(160deg, #2a1d22 0%, #211519 100%);
+  border-color: rgba(232, 122, 154, .18);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
+}
+[data-theme="dark"] .contato__form::before {
+  background: radial-gradient(circle, rgba(214, 51, 108, .25), transparent 70%);
+}
+[data-theme="dark"] .field input,
+[data-theme="dark"] .field select,
+[data-theme="dark"] .field textarea {
+  background: rgba(0, 0, 0, .25);
+  color: var(--text-strong);
+  border-color: rgba(232, 122, 154, .15);
+}
+[data-theme="dark"] .field input::placeholder,
+[data-theme="dark"] .field textarea::placeholder { color: #7a6066; }
+[data-theme="dark"] .field input:hover,
+[data-theme="dark"] .field select:hover,
+[data-theme="dark"] .field textarea:hover { border-color: var(--rosa-pink); }
+[data-theme="dark"] .field input:focus,
+[data-theme="dark"] .field select:focus,
+[data-theme="dark"] .field textarea:focus {
+  border-color: var(--rosa-vivo);
+  box-shadow: 0 0 0 4px rgba(214, 51, 108, .22);
+}
+
+/* CART DRAWER — itens precisam descolar do painel */
+[data-theme="dark"] .cart__overlay { background: rgba(0, 0, 0, .65); }
+[data-theme="dark"] .cart__head { border-bottom-color: rgba(232, 122, 154, .12); }
+[data-theme="dark"] .cart-item {
+  background: linear-gradient(180deg, #2e2026 0%, #261a20 100%);
+  border-color: rgba(232, 122, 154, .12);
+}
+[data-theme="dark"] .cart-item:hover { border-color: rgba(232, 122, 154, .3); }
+[data-theme="dark"] .cart-item__qty { background: rgba(232, 122, 154, .1); }
+[data-theme="dark"] .cart-item__qty button { background: #3a2429; }
+[data-theme="dark"] .cart__foot {
+  background: #211519;
+  border-top-color: rgba(232, 122, 154, .12);
+}
+
+/* HEADER ações — botões circulares precisam ser mais visíveis */
+[data-theme="dark"] .theme-toggle,
+[data-theme="dark"] .cart-btn { background: rgba(232, 122, 154, .12); }
+[data-theme="dark"] .cart-btn__count { border-color: #1a1216; }
+
+/* LOADER — fundo já é dark via token, mas a borda do logo some */
+[data-theme="dark"] .loader__logo { border-color: rgba(232, 122, 154, .35); }
+
+/* SCROLLBAR — no dark fica trilho preto com thumb quase invisível */
+[data-theme="dark"] ::-webkit-scrollbar-track { background: #1a1216; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #4a2c33; border-color: #1a1216;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: var(--rosa-deep); }
+
+/* SCROLL PROGRESS — sombra precisa ser mais forte no escuro */
+[data-theme="dark"] .scroll-progress { box-shadow: 0 0 14px rgba(214, 51, 108, .6); }
+
 /* ============ RESET & BASE ============ */
 *, *::before, *::after { box-sizing: border-box; }
 html {
@@ -854,6 +1084,11 @@ body.is-loading { overflow: hidden; }
   object-fit: cover;
   transition: transform var(--t-med);
   z-index: 1;
+  cursor: zoom-in;
+}
+.product__photo:focus-visible {
+  outline: 3px solid var(--rosa-forte, var(--text-strong));
+  outline-offset: -3px;
 }
 .product:hover .product__photo {
   transform: scale(1.06);
@@ -918,7 +1153,149 @@ body.is-loading { overflow: hidden; }
   box-shadow: var(--sombra-pink);
 }
 .product__add:active { transform: scale(.98); }
+.product__add:disabled {
+  opacity: .5; cursor: not-allowed;
+  background: var(--surface-2); color: var(--text-muted);
+  transform: none; box-shadow: none;
+}
 .product.is-hidden { display: none; }
+
+/* ===== Montador de buquê (bolinhas de sabor) ===== */
+.builder {
+  display: flex; flex-direction: column; gap: .65rem;
+  margin: 0 0 1.1rem;
+  padding: .9rem 1rem;
+  background: var(--bg-warm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.builder__label {
+  font-size: .82rem; font-weight: 600; color: var(--text-strong);
+}
+.builder__chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip {
+  display: inline-flex; align-items: stretch;
+  border: 1px solid var(--cinza-300); border-radius: 999px;
+  background: var(--surface); overflow: hidden;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+}
+.chip:hover { border-color: var(--chip); transform: translateY(-1px); }
+.chip.is-active { border-color: var(--chip); box-shadow: inset 0 0 0 1.5px var(--chip); }
+.chip__add {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .32rem .7rem .32rem .38rem;
+  background: none; border: none; cursor: pointer;
+  font-family: var(--f-body);
+  font-size: .78rem; font-weight: 600; color: var(--text);
+}
+.chip__dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--chip); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .18);
+  flex: 0 0 auto;
+}
+.chip__count {
+  min-width: 18px; height: 18px; padding: 0 .3rem;
+  border-radius: 999px; background: var(--choco); color: #fff;
+  font-size: .66rem; font-weight: 800;
+  display: inline-grid; place-items: center;
+}
+.chip__minus {
+  width: 28px; align-self: stretch;
+  border: none; border-left: 1px solid var(--cinza-300);
+  background: var(--surface-2); color: var(--text-strong);
+  font-size: 1.15rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  transition: background var(--t-fast);
+}
+.chip__minus:hover { background: var(--rosa-suave); }
+.builder__counter { font-size: .72rem; font-weight: 600; color: var(--text-muted); }
+.cart-item__flavors {
+  font-size: .74rem; color: var(--rosa-vivo); font-weight: 600;
+  margin: .15rem 0;
+}
+
+/* ===== Modal de sabores ===== */
+.fmodal {
+  position: fixed; inset: 0; z-index: 1200;
+  display: grid; place-items: center; padding: 1rem;
+  visibility: hidden; opacity: 0;
+  transition: opacity .3s var(--ease), visibility .3s var(--ease);
+}
+.fmodal[aria-hidden="false"] { visibility: visible; opacity: 1; }
+.fmodal__overlay {
+  position: absolute; inset: 0;
+  background: rgba(40, 20, 14, .55); backdrop-filter: blur(3px);
+}
+.fmodal__panel {
+  position: relative; z-index: 1;
+  width: min(440px, 100%); max-height: 90vh; overflow-y: auto;
+  background: var(--surface); border-radius: var(--radius-lg);
+  box-shadow: var(--sombra-xl);
+  display: flex; flex-direction: column;
+  transform: translateY(18px) scale(.97);
+  transition: transform .38s var(--ease);
+}
+.fmodal[aria-hidden="false"] .fmodal__panel { transform: none; }
+.fmodal__close {
+  position: absolute; top: .8rem; right: .9rem; z-index: 2;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: none; background: rgba(255, 255, 255, .9); color: var(--choco);
+  font-size: 1.5rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center; box-shadow: var(--sombra-sm);
+  transition: transform var(--t-fast);
+}
+.fmodal__close:hover { transform: rotate(90deg); }
+.fmodal__media {
+  aspect-ratio: 1 / 1; max-height: 46vh; overflow: hidden; flex: 0 0 auto;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(135deg, var(--rosa-suave), var(--rosa-medio));
+  display: grid; place-items: center; font-size: 4.5rem;
+}
+.fmodal__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.fmodal__body { padding: 1.4rem 1.5rem .4rem; }
+.fmodal__title { font-size: 1.45rem; margin: 0 0 .15rem; }
+.fmodal__price {
+  font-family: var(--f-display); font-size: 1.3rem;
+  color: var(--text-strong); font-weight: 600; margin: 0 0 1.1rem;
+}
+.fmodal__foot { padding: .6rem 1.5rem 1.5rem; }
+.fmodal__add { width: 100%; justify-content: center; }
+.fmodal__add:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; transform: none; }
+/* dentro do modal o montador não precisa do box próprio */
+.fmodal .builder { background: none; border: none; padding: 0; }
+
+/* ============ LIGHTBOX ============ */
+.lightbox {
+  position: fixed; inset: 0; z-index: 1300;
+  display: grid; place-items: center; padding: 1.5rem;
+  visibility: hidden; opacity: 0;
+  transition: opacity .3s var(--ease), visibility .3s var(--ease);
+}
+.lightbox[aria-hidden="false"] { visibility: visible; opacity: 1; }
+.lightbox__overlay {
+  position: absolute; inset: 0; cursor: zoom-out;
+  background: rgba(40, 20, 14, .8); backdrop-filter: blur(4px);
+}
+.lightbox__panel {
+  position: relative; z-index: 1;
+  max-width: min(640px, 92vw); max-height: 88vh;
+  transform: scale(.94); transition: transform .38s var(--ease);
+}
+.lightbox[aria-hidden="false"] .lightbox__panel { transform: none; }
+.lightbox__img {
+  display: block; max-width: 100%; max-height: 88vh;
+  object-fit: contain; border-radius: var(--radius-lg);
+  box-shadow: var(--sombra-xl);
+}
+.lightbox__close {
+  position: absolute; top: -.6rem; right: -.6rem; z-index: 2;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: none; background: rgba(255, 255, 255, .95); color: var(--choco);
+  font-size: 1.6rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center; box-shadow: var(--sombra-sm);
+  transition: transform var(--t-fast);
+}
+.lightbox__close:hover { transform: rotate(90deg); }
 
 .produtos__note {
   text-align: center;

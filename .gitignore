@@ -41,3 +41,6 @@ build/
 # ----- Backups e versões locais -----
 *-backup.*
 *-old.*
+
+# ----- Imagens fonte pesadas dos produtos (manter local, não versionar) -----
+assets/img/products/_src/

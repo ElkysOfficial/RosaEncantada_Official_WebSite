@@ -1,7 +1,7 @@
 /* TEAM */
 Confeiteira: Lorraine
 Site: Rosa Encantada by Lorraine
-Contato: contato@rosaencantada.com
+Contato: WhatsApp (31) 98697-7393
 Localização: Brasil
 
 /* SITE */

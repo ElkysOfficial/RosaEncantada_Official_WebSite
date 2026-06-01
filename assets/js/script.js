@@ -24,7 +24,7 @@ function renderProducts() {
       <div class="product__media">
         ${p.badge ? `<span class="product__badge">${p.badge}</span>` : ''}
         <span aria-hidden="true">${p.emoji}</span>
-        ${p.image ? `<img class="product__photo" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.remove()" />` : ''}
+        ${p.image ? `<img class="product__photo" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.remove()" role="button" tabindex="0" data-zoom="${p.image}" data-zoom-alt="${p.name}" aria-label="Ampliar foto de ${p.name}" />` : ''}
       </div>
       <div class="product__body">
         <span class="product__cat">${categoryLabel(p.cat)}</span>
@@ -32,7 +32,7 @@ function renderProducts() {
         <p class="product__desc">${p.desc}</p>
         <div class="product__foot">
           <span class="product__price">${fmt(p.price)}</span>
-          <button class="product__add" data-add="${p.id}" aria-label="Adicionar ${p.name} ao carrinho">
+          <button class="product__add" data-add="${p.id}" aria-label="${p.customizable ? `Escolher sabores de ${p.name}` : `Adicionar ${p.name} ao carrinho`}">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Adicionar
           </button>
@@ -43,7 +43,85 @@ function renderProducts() {
   observeReveals();
 }
 function categoryLabel(c) {
-  return { trufa: 'Trufa Artesanal', caixa: 'Caixa Presente' }[c] || c;
+  return { trufa: 'Trufa Artesanal', presente: 'Presente Especial' }[c] || c;
+}
+
+/* ============ MONTADOR DE BUQUÊ (produtos customizáveis) ============ */
+/* Seleção efêmera por produto, só vira item do carrinho ao clicar em Adicionar */
+const builderState = {};
+
+function builderMarkup(p) {
+  const c = p.customizable;
+  const noun = c.max > 1 ? 'sabores escolhidos' : 'sabor escolhido';
+  const chips = c.options.map(o => `
+    <span class="chip" data-flavor="${o.id}" style="--chip:${o.color}">
+      <button type="button" class="chip__add" data-add-flavor="${o.id}" aria-label="Adicionar ${o.name}">
+        <span class="chip__dot"></span>
+        <span class="chip__name">${o.name}</span>
+        <span class="chip__count" hidden>0</span>
+      </button>
+      <button type="button" class="chip__minus" data-minus-flavor="${o.id}" hidden aria-label="Remover ${o.name}">−</button>
+    </span>`).join('');
+  return `
+    <div class="builder" data-builder="${p.id}" data-max="${c.max}">
+      <span class="builder__label">${c.label}</span>
+      <div class="builder__chips">${chips}</div>
+      <div class="builder__counter"><span data-count>0</span>/${c.max} ${noun}</div>
+    </div>`;
+}
+
+function updateBuilder(id) {
+  const builder = document.querySelector(`.builder[data-builder="${id}"]`);
+  if (!builder) return;
+  const sel = builderState[id] || [];
+
+  builder.querySelectorAll('.chip').forEach(chip => {
+    const n = sel.filter(s => s === chip.dataset.flavor).length;
+    const badge = chip.querySelector('.chip__count');
+    badge.textContent = n;
+    badge.hidden = n === 0;
+    chip.classList.toggle('is-active', n > 0);
+    chip.querySelector('.chip__minus').hidden = n === 0;
+  });
+
+  builder.querySelector('[data-count]').textContent = sel.length;
+  const addBtn = document.getElementById('flavorAddBtn');
+  if (addBtn) addBtn.disabled = sel.length === 0;
+}
+
+/* clique nas bolinhas do modal: adicionar (+) e remover (−) sabores */
+document.addEventListener('click', (e) => {
+  const add = e.target.closest('[data-add-flavor]');
+  if (add) {
+    const builder = add.closest('.builder');
+    const id = builder.dataset.builder;
+    const max = +builder.dataset.max;
+    const sel = builderState[id] || (builderState[id] = []);
+    if (sel.length < max) sel.push(add.dataset.addFlavor);
+    else if (max === 1) sel[0] = add.dataset.addFlavor;   // 1 sabor só: troca direto
+    else { showToast(`Você já escolheu ${max} sabores 🌹`); return; }
+    updateBuilder(id);
+    return;
+  }
+  const minus = e.target.closest('[data-minus-flavor]');
+  if (minus) {
+    const id = minus.closest('.builder').dataset.builder;
+    const sel = builderState[id] || [];
+    const i = sel.lastIndexOf(minus.dataset.minusFlavor);
+    if (i >= 0) sel.splice(i, 1);
+    updateBuilder(id);
+  }
+});
+
+/* ============ RESOLUÇÃO DE CHAVE DO CARRINHO ============ */
+/* Itens customizáveis usam chave composta "id::sabor,sabor,..." */
+function baseProduct(key) { return PRODUCTS.find(p => p.id === key.split('::')[0]); }
+function keyFlavorNames(key) {
+  const [bid, f] = key.split('::');
+  if (!f) return [];
+  const p = PRODUCTS.find(x => x.id === bid);
+  const opts = (p && p.customizable && p.customizable.options) || [];
+  return f.split(',').map(fid => (opts.find(o => o.id === fid) || {}).name || fid);
 }
 
 /* ============ FILTROS ============ */
@@ -96,14 +174,82 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('click', (e) => {
+  const zoom = e.target.closest('[data-zoom]');
+  if (zoom) { openLightbox(zoom.dataset.zoom, zoom.dataset.zoomAlt); return; }
   const addBtn = e.target.closest('[data-add]');
   if (addBtn) {
     const id = addBtn.dataset.add;
     const product = PRODUCTS.find(p => p.id === id);
+    if (product.customizable) { openFlavorModal(product); return; }
     addToCart(id);
     pulseCartBtn();
     showToast(`${product.name} adicionado à sua caixinha`);
   }
+});
+
+/* ============ LIGHTBOX (ampliar foto do produto) ============ */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || '';
+  lightbox.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  lightboxImg.src = '';
+}
+document.querySelectorAll('[data-close-lightbox]').forEach(el => el.addEventListener('click', closeLightbox));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && lightbox.getAttribute('aria-hidden') === 'false') closeLightbox();
+});
+document.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-zoom]')) {
+    e.preventDefault();
+    openLightbox(e.target.dataset.zoom, e.target.dataset.zoomAlt);
+  }
+});
+
+/* ============ MODAL DE SABORES ============ */
+const flavorModal   = document.getElementById('flavorModal');
+const flavorBuilderEl = document.getElementById('flavorBuilder');
+let flavorModalProduct = null;
+
+function openFlavorModal(p) {
+  flavorModalProduct = p;
+  builderState[p.id] = [];                       // começa zerado a cada abertura
+  document.getElementById('flavorTitle').textContent = p.name;
+  document.getElementById('flavorPrice').textContent = fmt(p.price);
+  const media = document.getElementById('flavorMedia');
+  media.innerHTML = p.image
+    ? `<img src="${p.image}" alt="${p.name}" />`
+    : `<span aria-hidden="true">${p.emoji}</span>`;
+  flavorBuilderEl.innerHTML = builderMarkup(p);
+  updateBuilder(p.id);
+  flavorModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeFlavorModal() {
+  flavorModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  flavorModalProduct = null;
+}
+
+document.getElementById('flavorAddBtn').addEventListener('click', () => {
+  const p = flavorModalProduct;
+  if (!p) return;
+  const sel = builderState[p.id] || [];
+  if (!sel.length) { showToast('Escolha ao menos 1 sabor 🌹'); return; }
+  addToCart(`${p.id}::${[...sel].sort().join(',')}`);
+  pulseCartBtn();
+  showToast(`${p.name} adicionado à sua caixinha`);
+  closeFlavorModal();
+});
+document.querySelectorAll('[data-close-flavor]').forEach(el => el.addEventListener('click', closeFlavorModal));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && flavorModal.getAttribute('aria-hidden') === 'false') closeFlavorModal();
 });
 
 function addToCart(id) {
@@ -130,14 +276,16 @@ function renderCart() {
       </div>`;
   } else {
     cartItemsEl.innerHTML = ids.map(id => {
-      const p = PRODUCTS.find(x => x.id === id);
+      const p = baseProduct(id);
       const qty = state.cart[id];
       total += p.price * qty; count += qty;
+      const flavors = keyFlavorNames(id);
       return `
         <div class="cart-item">
           <div class="cart-item__media">${p.emoji}</div>
           <div>
             <div class="cart-item__name">${p.name}</div>
+            ${flavors.length ? `<div class="cart-item__flavors">🌹 ${flavors.join(', ')}</div>` : ''}
             <div class="cart-item__price">${fmt(p.price)} · cada</div>
             <div class="cart-item__qty">
               <button data-qty-minus="${id}" aria-label="Diminuir quantidade">−</button>
@@ -194,10 +342,12 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
 
   let total = 0;
   const lines = ids.map(id => {
-    const p = PRODUCTS.find(x => x.id === id);
+    const p = baseProduct(id);
     const qty = state.cart[id];
     total += p.price * qty;
-    return `• ${qty}x ${p.name}, ${fmt(p.price * qty)}`;
+    const flavors = keyFlavorNames(id);
+    const extra = flavors.length ? ` (${flavors.join(', ')})` : '';
+    return `• ${qty}x ${p.name}${extra}, ${fmt(p.price * qty)}`;
   });
 
   const msg = encodeURIComponent(
@@ -352,6 +502,8 @@ if (window.matchMedia('(hover: hover)').matches) {
 
 /* ============ JSON-LD DINÂMICO PARA PRODUTOS ============ */
 function injectProductSchema() {
+  const ORIGIN = 'https://green-hippopotamus-490496.hostingersite.com';
+  const fallbackImg = `${ORIGIN}/assets/social/og-image.jpg`;
   const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -371,7 +523,7 @@ function injectProductSchema() {
           "@type": "Brand",
           "name": "Rosa Encantada by Lorraine"
         },
-        "image": "https://green-hippopotamus-490496.hostingersite.com/assets/social/og-image.jpg",
+        "image": p.image ? `${ORIGIN}/${p.image}` : fallbackImg,
         "offers": {
           "@type": "Offer",
           "price": p.price.toFixed(2),
