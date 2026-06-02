@@ -1,0 +1,9 @@
+# Não publicar no Vercel — conteúdo que não faz parte do site
+obsidian_rosaencantada/
+scripts/
+docs/
+.claude/
+CLAUDE.md
+README.md
+.htaccess
+assets/img/products/_src/
