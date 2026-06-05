@@ -50,4 +50,4 @@ User-agent: MJ12bot
 Disallow: /
 
 # Sitemap
-Sitemap: https://green-hippopotamus-490496.hostingersite.com/sitemap.xml
+Sitemap: https://rosaencantada.vercel.app/sitemap.xml
