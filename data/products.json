@@ -68,8 +68,13 @@
   { "id": "cesta-amor-encantado", "cat": "presente", "emoji": "🧺",
     "image": "assets/img/products/cesta-amor-encantado.jpg",
     "name": "Cesta Amor Encantado",
-    "desc": "Cesta com coração de 2 rosas de chocolate ao leite (cobertura de chocolate branco e recheio cremoso), caixinha com 4 brigadeiros e \"te amo\" de chocolate. Acompanha cartão personalizado com fotos do casal.",
-    "price": 79.90, "badge": "Novidade",
+    "desc": "Cesta do amor com \"te amo\" de chocolate, guloseimas para compartilhar e cartão personalizado com a ilustração do casal. A surpresa perfeita para presentear quem você ama.",
+    "price": 79.90, "badge": "Novidade" },
+  { "id": "cesta-doce-encanto", "cat": "presente", "emoji": "🧺",
+    "image": "assets/img/products/cesta-doce-encanto.jpg",
+    "name": "Cesta Doce Encanto",
+    "desc": "Coração com 2 rosas de chocolate ao leite (cobertura de chocolate branco e recheio cremoso), caixinha com 4 brigadeiros e \"te amo\" de chocolate. Pura doçura artesanal para presentear.",
+    "price": 84.90, "badge": "Novidade",
     "customizable": {
       "label": "Escolha o sabor das 2 rosas (até 2):",
       "max": 2,
@@ -80,10 +85,5 @@
         { "id": "coco", "name": "Coco", "color": "#f7f0e2" },
         { "id": "brigadeiro", "name": "Brigadeiro", "color": "#5c3a21" }
       ]
-    } },
-  { "id": "cesta-doce-encanto", "cat": "presente", "emoji": "🧺",
-    "image": "assets/img/products/cesta-doce-encanto.jpg",
-    "name": "Cesta Doce Encanto",
-    "desc": "Cesta repleta de doçuras artesanais, uma seleção especial de trufas, bombons e brigadeiros feitos à mão, arrumados com todo o capricho. O presente perfeito para adoçar qualquer comemoração.",
-    "price": 84.90, "badge": "Novidade" }
+    } }
 ]
