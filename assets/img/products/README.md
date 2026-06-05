@@ -26,6 +26,7 @@ Se o arquivo não existir, o card cai automaticamente no emoji do produto (defin
 - `rosa-encantada.jpg`   — Rosa Encantada (presente)
 - `buque-rosas.jpg`      — Buquê de Rosas (presente)
 - `docinhos-encantados.jpg` — Docinhos Encantados (presente)
-- `cesta-encantada.jpg`  — Cesta Encantada (presente)
+- `cesta-amor-encantado.jpg` — Cesta Amor Encantado (presente)
+- `cesta-doce-encanto.jpg`  — Cesta Doce Encanto (presente)
 
-Sem foto (usam emoji): `tr-pacoca`, `cx-06`, `cx-12`, `cx-24`.
+Sem foto (usam emoji): `tr-pacoca`.

@@ -63,7 +63,7 @@ Dois helpers PowerShell em `scripts/` (rode da raiz do projeto):
 
 ## Convenções específicas deste repo
 
-- **Placeholders de domínio/contato:** o source commitado usa o domínio temporário Hostinger `green-hippopotamus-490496.hostingersite.com` e WhatsApp `5531986977393`. `docs/DEPLOY-HOSTINGER.md` lista cada arquivo que contém essas referências. Use `update-site.ps1` em vez de editar à mão.
+- **Domínio/contato:** o source usa o domínio de produção `rosaencantada.vercel.app` (Vercel) e WhatsApp `5531986977393`. As referências de domínio vivem em `index.html`, `404.html`, `robots.txt`, `sitemap.xml` e `assets/js/script.js` (constante `ORIGIN` em `injectProductSchema`). Para trocar domínio/WhatsApp em lote, ajuste o array `$replacements` em `update-site.ps1` e rode-o, em vez de editar à mão.
 - **Consistência cross-file:** dados de produto vivem em `data/products.json`. JSON-LD `Product` no `index.html` (entidades estáticas no `@graph`) precisa bater com nomes/preços/descrições do JSON. O `injectProductSchema()` em `script.js` gera entidades adicionais dinâmicas baseadas no JSON.
 - **CSP:** `.htaccess` envia uma `Content-Security-Policy` estrita. Adicionar novo host de script/font/imagem de terceiros exige atualizar a diretiva CSP, ou o recurso é bloqueado em produção.
 - **Cache busting:** Hostinger LiteSpeed cacheia agressivamente. Após deploy o usuário limpa cache via hPanel; pra previews sociais (WhatsApp em especial), adicionar `?v=N` na URL.

@@ -48,7 +48,7 @@
     "image": "assets/img/products/buque-rosas.jpg",
     "name": "Buquê de Rosas",
     "desc": "Buquê com 5 deliciosas rosas de chocolate ao leite, cobertura de chocolate branco e recheio cremoso. Acompanha flores artificiais complementares e cartão para mensagem.",
-    "price": 99.90, "badge": "Novidade",
+    "price": 89.90, "badge": "Novidade",
     "customizable": {
       "label": "Monte seu buquê, escolha até 5 sabores:",
       "max": 5,
@@ -65,11 +65,11 @@
     "name": "Docinhos Encantados",
     "desc": "Docinhos em delicado formato de flor, com centro de chocolate. Perfeitos para festas, lembrancinhas e mesas que pedem um toque especial.",
     "price": 10.00, "badge": "Novidade" },
-  { "id": "cesta-encantada", "cat": "presente", "emoji": "🧺",
-    "image": "assets/img/products/cesta-encantada.jpg",
-    "name": "Cesta Encantada",
+  { "id": "cesta-amor-encantado", "cat": "presente", "emoji": "🧺",
+    "image": "assets/img/products/cesta-amor-encantado.jpg",
+    "name": "Cesta Amor Encantado",
     "desc": "Cesta com coração de 2 rosas de chocolate ao leite (cobertura de chocolate branco e recheio cremoso), caixinha com 4 brigadeiros e \"te amo\" de chocolate. Acompanha cartão personalizado com fotos do casal.",
-    "price": 89.90, "badge": "Novidade",
+    "price": 79.90, "badge": "Novidade",
     "customizable": {
       "label": "Escolha o sabor das 2 rosas (até 2):",
       "max": 2,
@@ -80,5 +80,10 @@
         { "id": "coco", "name": "Coco", "color": "#f7f0e2" },
         { "id": "brigadeiro", "name": "Brigadeiro", "color": "#5c3a21" }
       ]
-    } }
+    } },
+  { "id": "cesta-doce-encanto", "cat": "presente", "emoji": "🧺",
+    "image": "assets/img/products/cesta-doce-encanto.jpg",
+    "name": "Cesta Doce Encanto",
+    "desc": "Cesta repleta de doçuras artesanais, uma seleção especial de trufas, bombons e brigadeiros feitos à mão, arrumados com todo o capricho. O presente perfeito para adoçar qualquer comemoração.",
+    "price": 84.90, "badge": "Novidade" }
 ]

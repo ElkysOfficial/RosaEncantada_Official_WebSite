@@ -24,7 +24,7 @@ function renderProducts() {
       <div class="product__media">
         ${p.badge ? `<span class="product__badge">${p.badge}</span>` : ''}
         <span aria-hidden="true">${p.emoji}</span>
-        ${p.image ? `<img class="product__photo" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.remove()" role="button" tabindex="0" data-zoom="${p.image}" data-zoom-alt="${p.name}" aria-label="Ampliar foto de ${p.name}" />` : ''}
+        ${p.image ? `<img class="product__photo" src="${p.image}" alt="${p.name}, ${categoryLabel(p.cat)} Rosa Encantada by Lorraine" width="800" height="800" loading="lazy" decoding="async" onerror="this.remove()" role="button" tabindex="0" data-zoom="${p.image}" data-zoom-alt="${p.name}" aria-label="Ampliar foto de ${p.name}" />` : ''}
       </div>
       <div class="product__body">
         <span class="product__cat">${categoryLabel(p.cat)}</span>
@@ -440,7 +440,16 @@ sections.forEach(s => spyObserver.observe(s));
 /* ============ REVEAL ON SCROLL ============ */
 let revealObserver;
 function observeReveals() {
+  // Fallback: navegadores sem IntersectionObserver mostram tudo de imediato
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+    return;
+  }
   if (!revealObserver) {
+    /* threshold 0 + rootMargin percentual: dispara assim que o elemento
+       entra na viewport, INDEPENDENTE da altura. Um threshold fracionário
+       (ex.: .12) nunca é atingido em seções muito altas (ex.: catálogo em
+       coluna única no celular), deixando-as presas em opacity:0. */
     revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -448,7 +457,7 @@ function observeReveals() {
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: .12, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
   }
   document.querySelectorAll('.reveal:not(.is-visible)').forEach(el => revealObserver.observe(el));
 }
@@ -502,7 +511,7 @@ if (window.matchMedia('(hover: hover)').matches) {
 
 /* ============ JSON-LD DINÂMICO PARA PRODUTOS ============ */
 function injectProductSchema() {
-  const ORIGIN = 'https://green-hippopotamus-490496.hostingersite.com';
+  const ORIGIN = 'https://rosaencantada.vercel.app';
   const fallbackImg = `${ORIGIN}/assets/social/og-image.jpg`;
   const itemList = {
     "@context": "https://schema.org",
@@ -515,7 +524,7 @@ function injectProductSchema() {
       "position": i + 1,
       "item": {
         "@type": "Product",
-        "@id": `https://green-hippopotamus-490496.hostingersite.com/#produto-${p.id}`,
+        "@id": `https://rosaencantada.vercel.app/#produto-${p.id}`,
         "name": p.name,
         "description": p.desc,
         "category": categoryLabel(p.cat),
@@ -529,18 +538,12 @@ function injectProductSchema() {
           "price": p.price.toFixed(2),
           "priceCurrency": "BRL",
           "availability": "https://schema.org/InStock",
-          "url": "https://green-hippopotamus-490496.hostingersite.com/#produtos",
+          "url": "https://rosaencantada.vercel.app/#produtos",
           "seller": {
             "@type": "Organization",
             "name": "Rosa Encantada by Lorraine"
           },
           "priceValidUntil": `${new Date().getFullYear() + 1}-12-31`
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "5.0",
-          "reviewCount": "27",
-          "bestRating": "5"
         }
       }
     }))

@@ -26,7 +26,8 @@ $map = @{
   'Bombom de maracujá.jpg'          = 'tr-maracuja'
   'Bombom de morango com ninho.png' = 'tr-ninho-morango'
   'Buquê de Rosas.jpg'              = 'buque-rosas'
-  'Cesta Encantada.jpg'            = 'cesta-encantada'
+  'Cesta Amor Encantado.jpg'       = 'cesta-amor-encantado'
+  'Cesta Doce Encanto.jpg'         = 'cesta-doce-encanto'
   'Docinhos Encantados.jpg'        = 'docinhos-encantados'
   'Rosa Encantada.jpg'             = 'rosa-encantada'
 }

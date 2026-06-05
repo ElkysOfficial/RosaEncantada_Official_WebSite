@@ -37,6 +37,7 @@
 
   /* Layout */
   --max:        1240px;
+  --gutter-x:   clamp(1rem, 3.5vw, 1.5rem);   /* recuo lateral fluido (cada lado) */
 
   /* Easing & timing */
   --ease:       cubic-bezier(.22, 1, .36, 1);
@@ -374,9 +375,15 @@ h1, h2, h3, h4 {
   line-height: 1.15;
   font-weight: 600;
   letter-spacing: -.01em;
+  text-wrap: balance;
 }
 
 ::selection { background: var(--rosa-medio); color: var(--text-strong); }
+
+/* Quebra segura de palavras longas e toque limpo no mobile */
+h1, h2, h3, h4, p, a, li, span, blockquote, label,
+.product__name, .hero__title, .section__title { overflow-wrap: break-word; }
+a, button, .btn, input, select, textarea { -webkit-tap-highlight-color: transparent; }
 
 /* Scrollbar refinado */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -391,7 +398,7 @@ h1, h2, h3, h4 {
   border-radius: 4px;
 }
 
-.container { width: min(100% - 2.5rem, var(--max)); margin-inline: auto; }
+.container { width: min(100% - var(--gutter-x) * 2, var(--max)); margin-inline: auto; }
 
 /* ============ LOADER ============ */
 .loader {
@@ -588,7 +595,7 @@ body.is-loading { overflow: hidden; }
 /* ============ HERO ============ */
 .hero {
   position: relative;
-  padding: 5.5rem 0 6.5rem;
+  padding: clamp(2.75rem, 6vw, 5.5rem) 0 clamp(3.5rem, 8vw, 6.5rem);
   overflow: hidden;
   background: linear-gradient(180deg, var(--rosa-claro) 0%, var(--creme) 100%);
 }
@@ -629,8 +636,8 @@ body.is-loading { overflow: hidden; }
 .hero__grid {
   position: relative;
   display: grid; grid-template-columns: 1.05fr 1fr;
-  align-items: center; gap: 3.5rem;
-  min-height: 70vh;
+  align-items: center; gap: clamp(2.25rem, 5vw, 3.5rem);
+  min-height: 70vh; min-height: 70dvh;
 }
 
 .hero__content > * {
@@ -872,8 +879,8 @@ body.is-loading { overflow: hidden; }
 .btn--block { width: 100%; }
 
 /* ============ SECTIONS ============ */
-.section { padding: 7rem 0; position: relative; }
-.section__head { text-align: center; max-width: 760px; margin: 0 auto 4rem; }
+.section { padding: clamp(3.75rem, 8vw, 7rem) 0; position: relative; }
+.section__head { text-align: center; max-width: 760px; margin: 0 auto clamp(2.5rem, 5vw, 4rem); }
 .section__head .eyebrow { justify-content: center; }
 .section__title {
   font-size: clamp(2.1rem, 4.2vw, 3rem);
@@ -1228,7 +1235,7 @@ body.is-loading { overflow: hidden; }
 }
 .fmodal__panel {
   position: relative; z-index: 1;
-  width: min(440px, 100%); max-height: 90vh; overflow-y: auto;
+  width: min(440px, 100%); max-height: 90vh; max-height: 90dvh; overflow-y: auto;
   background: var(--surface); border-radius: var(--radius-lg);
   box-shadow: var(--sombra-xl);
   display: flex; flex-direction: column;
@@ -1278,12 +1285,12 @@ body.is-loading { overflow: hidden; }
 }
 .lightbox__panel {
   position: relative; z-index: 1;
-  max-width: min(640px, 92vw); max-height: 88vh;
+  max-width: min(640px, 92vw); max-height: 88vh; max-height: 88dvh;
   transform: scale(.94); transition: transform .38s var(--ease);
 }
 .lightbox[aria-hidden="false"] .lightbox__panel { transform: none; }
 .lightbox__img {
-  display: block; max-width: 100%; max-height: 88vh;
+  display: block; max-width: 100%; max-height: 88vh; max-height: 88dvh;
   object-fit: contain; border-radius: var(--radius-lg);
   box-shadow: var(--sombra-xl);
 }
@@ -2000,9 +2007,7 @@ body.is-loading { overflow: hidden; }
   .nav__link { padding: .95rem 0; border-bottom: 1px solid var(--cinza-100); }
   .nav__link:last-child { border-bottom: 0; }
 
-  .section { padding: 4.5rem 0; }
-  .section__head { margin-bottom: 2.5rem; }
-  .hero { padding: 3rem 0 4.5rem; min-height: auto; }
+  .hero { min-height: auto; }
   .hero__grid { min-height: auto; }
   .hero__scroll { display: none; }
 
@@ -2027,7 +2032,6 @@ body.is-loading { overflow: hidden; }
 
 /* Mobile pequeno (≤ 540px) */
 @media (max-width: 540px) {
-  .container { padding-inline: 1.1rem; }
   .header__inner { padding-block: .65rem; }
   .brand__tag { display: none; }
   .brand__name { font-size: 1.05rem; }
@@ -2059,7 +2063,6 @@ body.is-loading { overflow: hidden; }
 
 /* Mobile muito pequeno (≤ 380px) */
 @media (max-width: 380px) {
-  .container { padding-inline: .9rem; }
   .brand__logo { width: 36px; height: 36px; }
   .brand__name { font-size: .98rem; }
   .theme-toggle, .cart-btn { width: 38px; height: 38px; }
@@ -2070,4 +2073,59 @@ body.is-loading { overflow: hidden; }
 
   .products { grid-template-columns: 1fr; }
   .product__media { aspect-ratio: 1.2/1; }
+}
+
+/* ============ AJUSTES FINOS PARA TODOS OS DISPOSITIVOS ============ */
+
+/* Modal de sabores em celulares: evita que a foto domine a tela
+   e garante rolagem confortável do conteúdo */
+@media (max-width: 540px) {
+  .fmodal__media  { max-height: 40vh; }
+  .fmodal__body   { padding: 1.2rem 1.25rem .3rem; }
+  .fmodal__foot   { padding: .5rem 1.25rem 1.25rem; }
+  .fmodal__title  { font-size: 1.3rem; }
+  .builder__chips { gap: .35rem; }
+}
+
+/* Orientação paisagem em celulares (altura baixa): compacta o hero
+   e mantém modais/foto ampliada dentro da viewport, com rolagem */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero        { padding: 2.5rem 0 3rem; }
+  .hero__grid  { min-height: auto; gap: 2rem; }
+  .floating-card { display: none; }
+  .fmodal        { padding: .5rem; align-items: start; }
+  .fmodal__panel { max-height: 96vh; }
+  .fmodal__media { max-height: 34vh; }
+  .lightbox      { padding: .75rem; }
+  .lightbox__img { max-height: 92vh; }
+  .whatsapp-float { width: 50px; height: 50px; }
+}
+
+/* ============ ULTRA-WIDE (laptops grandes → monitores 4K/5K) ============
+   Escala progressiva: a coluna de conteúdo ganha largura aos poucos e o
+   corpo de texto cresce em telas enormes, sem nunca perder o centro. */
+
+/* Laptops/monitores grandes (~1440px+) */
+@media (min-width: 1440px) {
+  :root { --max: 1320px; }
+}
+
+/* Monitores full-HD widescreen */
+@media (min-width: 1680px) {
+  :root { --max: 1400px; }
+  .hero__grid { gap: 4rem; }
+}
+
+/* QHD / ultrawide 1440p */
+@media (min-width: 1920px) {
+  :root { --max: 1500px; }
+  body { font-size: 17px; }
+  .products { gap: 2.25rem; }
+}
+
+/* 4K / 5K — limita a leitura e amplia tipografia/respiros */
+@media (min-width: 2560px) {
+  :root { --max: 1640px; }
+  body { font-size: 18px; }
+  .hero__grid { gap: 5rem; }
 }
