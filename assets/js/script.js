@@ -55,12 +55,13 @@ function builderMarkup(p) {
   const noun = c.max > 1 ? 'sabores escolhidos' : 'sabor escolhido';
   const chips = c.options.map(o => `
     <span class="chip" data-flavor="${o.id}" style="--chip:${o.color}">
-      <button type="button" class="chip__add" data-add-flavor="${o.id}" aria-label="Adicionar ${o.name}">
+      <button type="button" class="chip__minus" data-minus-flavor="${o.id}" hidden aria-label="Remover ${o.name}">−</button>
+      <span class="chip__body">
         <span class="chip__dot"></span>
         <span class="chip__name">${o.name}</span>
         <span class="chip__count" hidden>0</span>
-      </button>
-      <button type="button" class="chip__minus" data-minus-flavor="${o.id}" hidden aria-label="Remover ${o.name}">−</button>
+      </span>
+      <button type="button" class="chip__add" data-add-flavor="${o.id}" aria-label="Adicionar ${o.name}">+</button>
     </span>`).join('');
   return `
     <div class="builder" data-builder="${p.id}" data-max="${c.max}">
@@ -561,7 +562,7 @@ async function loadProducts() {
   try {
     const res = await fetch('data/products.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    PRODUCTS = await res.json();
+    PRODUCTS = (await res.json()).filter(p => p.enabled !== false);
   } catch (err) {
     console.error('[Rosa Encantada] Falha ao carregar catálogo:', err);
     PRODUCTS = [];
