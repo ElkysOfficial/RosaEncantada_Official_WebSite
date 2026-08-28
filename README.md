@@ -52,14 +52,14 @@ O `index.html` concentra todas as seções (hero, produtos, encomendas, contato)
 ├── scripts/                      # helpers PowerShell (ver tabela abaixo)
 ├── docs/
 │   └── DEPLOY-HOSTINGER.md       # runbook do deploy legado na Hostinger
-└── obsidian_rosaencantada/       # vault de notas da dona — não é código
+└── obsidian_rosaencantada/       # vault de notas da dona - não é código
 ```
 
 Os caminhos referenciados em HTML, JSON-LD e sitemap são relativos à raiz. Mover arquivos exige atualizar `index.html`, `404.html`, `site.webmanifest`, `sitemap.xml` e `assets/js/script.js`.
 
 ## Como rodar local
 
-Não há dependências para instalar, mas é preciso servir os arquivos por HTTP — o `fetch('data/products.json')` falha em `file://` por CORS. Da raiz do projeto:
+Não há dependências para instalar, mas é preciso servir os arquivos por HTTP - o `fetch('data/products.json')` falha em `file://` por CORS. Da raiz do projeto:
 
 ```powershell
 python -m http.server 8000
@@ -95,6 +95,6 @@ O `.htaccess` e o `docs/DEPLOY-HOSTINGER.md` documentam o deploy anterior em hos
 
 ## Fluxo de trabalho
 
-- `main` — produção; `develop` — desenvolvimento.
+- `main` - produção; `develop` - desenvolvimento.
 - Dados de produto mudaram? Editar `data/products.json` e manter o JSON-LD estático do `index.html` em sincronia (nomes, preços, descrições).
 - Todo o conteúdo do site é em português do Brasil.
